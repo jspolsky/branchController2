@@ -3,6 +3,8 @@
 #include <BranchController.h>
 #include <Heartbeat.h>
 
+#define HEARTBEAT_PERIOD_MS 1700
+
 namespace Heartbeat {
 
     void setup(void)
@@ -13,14 +15,13 @@ namespace Heartbeat {
 
     void loop(void)
     {
+        uint32_t tm = millis() % HEARTBEAT_PERIOD_MS;
+        double rad = tm * PI * 2 / HEARTBEAT_PERIOD_MS;
+        double brightness = (sin(rad) + 1.0) * 128.0;
+        if (cos(rad) > 0) brightness = 256.0 - brightness;
+
         // turn the LED on (HIGH is the voltage level)
-        digitalWrite(pinHeartbeat, HIGH);
-        // wait for a second
-        delay(1000);
-        // turn the LED off by making the voltage LOW
-        digitalWrite(pinHeartbeat, LOW);
-        // wait for a second
-        delay(1000);
+        analogWrite(pinHeartbeat, int(brightness));
     }
 
 }
