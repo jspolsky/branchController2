@@ -9,6 +9,7 @@
             "includePath": [
                 "/Users/spolsky/Dropbox/Arduino/branchController2/include",
                 "/Users/spolsky/Dropbox/Arduino/branchController2/src",
+                "/Users/spolsky/Dropbox/Arduino/branchController2/lib/Heartbeat",
                 "/Users/spolsky/.platformio/packages/framework-arduinoteensy/cores/teensy3",
                 "/Users/spolsky/.platformio/lib/FastLED_ID126",
                 "/Users/spolsky/.platformio/packages/framework-arduinoteensy/libraries/ADC",
@@ -118,6 +119,7 @@
                 "path": [
                     "/Users/spolsky/Dropbox/Arduino/branchController2/include",
                     "/Users/spolsky/Dropbox/Arduino/branchController2/src",
+                    "/Users/spolsky/Dropbox/Arduino/branchController2/lib/Heartbeat",
                     "/Users/spolsky/.platformio/packages/framework-arduinoteensy/cores/teensy3",
                     "/Users/spolsky/.platformio/lib/FastLED_ID126",
                     "/Users/spolsky/.platformio/packages/framework-arduinoteensy/libraries/ADC",
