@@ -7,28 +7,19 @@
 
 namespace Util {
 
-    void setup(void)
-    {
-#ifdef DEBUG
-        uint32_t tmEnd = millis() + 1000;
-        Serial.begin(250000);
-        while (!Serial && millis() < tmEnd);
-#endif
+    void setup(void) {
+        #ifdef DEBUG
+            uint32_t tmEnd = millis() + 1000;
+            Serial.begin(250000);
+            while (!Serial && millis() < tmEnd);
+        #endif
     }
+}
 
-    void DebugPrintf(char const* pszFmt, ... ) {
+void dprintf(char const* pszFmt UNUSED_IN_RELEASE, ... ) {
 
-#ifdef RELEASE
-        /* unused */ pszFmt;
-#endif
-
-#ifdef DEBUG
-        int cargs = 0;
+    #ifdef DEBUG
         char const* pszTmp;
-
-        for (pszTmp = pszFmt; *pszTmp; pszTmp++)  
-            if (*pszTmp == '%')  
-                cargs++; 
 
         va_list argv;
         va_start(argv, pszFmt);
@@ -92,6 +83,5 @@ namespace Util {
 
             pszTmp++;
         }
-#endif
-    }
+    #endif
 }

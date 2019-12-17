@@ -9,12 +9,12 @@
 #include <Heartbeat.h>
 #include <Util.h>
 
-using namespace Util;
-
 void setup()
 {
   Heartbeat::setup();
   Util::setup();
+
+  dprintf("BranchController Setup Complete\n");
 }
 
 void loop()

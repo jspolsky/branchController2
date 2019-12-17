@@ -3,9 +3,6 @@
 #include <BranchController.h>
 #include <Util.h>
 #include <Heartbeat.h>
-using namespace Util;
-
-#define HEARTBEAT_PERIOD_MS 1700
 
 namespace Heartbeat {
 
