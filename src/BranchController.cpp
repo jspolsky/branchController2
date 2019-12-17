@@ -9,6 +9,7 @@
 #include <Util.h>
 #include <Display.h>
 #include <TcpServer.h>
+#include <LED.h>
 
 void setup() {
 
@@ -18,6 +19,7 @@ void setup() {
     Util::setup();
     Display::setup();
     TcpServer::setup();
+    LED::setup();
 
     dbgprintf("BranchController Setup Complete\n");
 
@@ -27,6 +29,7 @@ void loop() {
 
     Heartbeat::loop();
     TcpServer::loop();
+    LED::loop();
 
     Display::status(3, TcpServer::getstatus(), "192.168.1.177", 60);
 }
