@@ -1,7 +1,9 @@
 
 #include <Arduino.h>
 #include <BranchController.h>
+#include <Util.h>
 #include <Heartbeat.h>
+using namespace Util;
 
 #define HEARTBEAT_PERIOD_MS 1700
 
@@ -18,7 +20,7 @@ namespace Heartbeat {
         uint32_t tm = millis() % HEARTBEAT_PERIOD_MS;
         double rad = tm * PI * 2 / HEARTBEAT_PERIOD_MS;
         double brightness = (sin(rad) + 1.0) * 128.0;
-        if (cos(rad) > 0) brightness = 256.0 - brightness;
+        if (cos(rad) > 0) brightness = 255.0 - brightness;
 
         // turn the LED on (HIGH is the voltage level)
         analogWrite(pinHeartbeat, int(brightness));
