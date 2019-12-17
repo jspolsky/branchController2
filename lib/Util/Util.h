@@ -11,4 +11,4 @@ namespace Util
     void setup(void);
 }
 
-void dprintf(char const *str, ...);
+void dbgprintf(char const *str, ...);

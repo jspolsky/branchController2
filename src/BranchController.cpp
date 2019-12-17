@@ -7,13 +7,17 @@
 #include <BranchController.h>
 #include <Heartbeat.h>
 #include <Util.h>
+#include <Display.h>
 
 void setup() {
 
+    dbgprintf("Begin\n");
+
     Heartbeat::setup();
     Util::setup();
+    Display::setup();
 
-    dprintf("BranchController Setup Complete\n");
+    dbgprintf("BranchController Setup Complete\n");
 
 }
 

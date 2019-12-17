@@ -16,7 +16,7 @@ namespace Util {
     }
 }
 
-void dprintf(char const* pszFmt UNUSED_IN_RELEASE, ... ) {
+void dbgprintf(char const* pszFmt UNUSED_IN_RELEASE, ... ) {
 
     #ifdef DEBUG
         char const* pszTmp;
