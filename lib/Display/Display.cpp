@@ -28,8 +28,6 @@ namespace Display {
 
         fDisplayOK = true;
 
-        text("Controller #153\nIP 192.168.0.24\nConnection: OK\nFrame Rate: 64 fps");
-
         #ifdef ADAFRUIT_SAMPLE_CODE
             adafruitSampleCode();
         #endif
@@ -50,6 +48,16 @@ namespace Display {
         display.printf("%s", s);
 
         display.display();        
+    }
+
+    void status(int ixController,
+                const char* sTcpServer,
+                const char* sIP,
+                int frameRate) {
+
+        char rgch[100];
+        sprintf(rgch, "%d\nEth: %s\nIP: %s\nSpeed: %d fps", ixController, sTcpServer, sIP, frameRate);
+        text(rgch);
     }
 
 

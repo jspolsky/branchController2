@@ -9,6 +9,10 @@ namespace Display {
 
     void setup();
     void text(const char* s);     // Display some text
+    void status(int ixController,
+                const char* sTcpServer,
+                const char* sIP,
+                int frameRate);
 
     #ifdef ADAFRUIT_SAMPLE_CODE
         void adafruitSampleCode();  // Runs an infinite loop of adafruit sample code, consisting of these functions:

@@ -1,3 +1,4 @@
 #pragma once
 
-#define pinHeartbeat 23
+#define pinEthernetCS 10
+#define pinHeartbeat  23

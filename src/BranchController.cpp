@@ -8,6 +8,7 @@
 #include <Heartbeat.h>
 #include <Util.h>
 #include <Display.h>
+#include <TcpServer.h>
 
 void setup() {
 
@@ -16,6 +17,7 @@ void setup() {
     Heartbeat::setup();
     Util::setup();
     Display::setup();
+    TcpServer::setup();
 
     dbgprintf("BranchController Setup Complete\n");
 
@@ -24,5 +26,7 @@ void setup() {
 void loop() {
 
     Heartbeat::loop();
+    TcpServer::loop();
 
+    Display::status(3, TcpServer::getstatus(), "192.168.1.177", 60);
 }
