@@ -33,7 +33,6 @@ namespace LED {
         hue++;
 
         LEDS.show();
-        LEDS.delay(1);
 
     }
 
