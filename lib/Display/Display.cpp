@@ -50,13 +50,13 @@ namespace Display {
         display.display();        
     }
 
-    void status(int ixController,
+    void status(unsigned long ircode,
                 const char* sTcpServer,
                 const char* sIP,
                 int frameRate) {
 
         char rgch[100];
-        sprintf(rgch, "%d\nEth: %s\nIP: %s\nSpeed: %d fps", ixController, sTcpServer, sIP, frameRate);
+        sprintf(rgch, "IR: %lx\nEth: %s\nIP: %s\nSpeed: %d fps", ircode, sTcpServer, sIP, frameRate);
         text(rgch);
     }
 

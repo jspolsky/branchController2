@@ -10,6 +10,7 @@
 #include <Display.h>
 #include <TcpServer.h>
 #include <LED.h>
+#include <Remote.h>
 
 void setup() {
 
@@ -20,6 +21,7 @@ void setup() {
     Display::setup();
     TcpServer::setup();
     LED::setup();
+    Remote::setup();
 
     dbgprintf("BranchController Setup Complete\n");
 
@@ -27,9 +29,15 @@ void setup() {
 
 void loop() {
 
+    static unsigned int lastIrCode = 0;
+
     Heartbeat::loop();
     TcpServer::loop();
     LED::loop();
+    if (Remote::loop())
+    {
+        lastIrCode = Remote::lastResult;
+    }
 
-    Display::status(3, TcpServer::getstatus(), "192.168.1.177", 60);
+    Display::status(lastIrCode, TcpServer::getstatus(), "192.168.1.177", 60);
 }

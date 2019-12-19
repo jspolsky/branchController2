@@ -9,7 +9,7 @@ namespace Display {
 
     void setup();
     void text(const char* s);     // Display some text
-    void status(int ixController,
+    void status(unsigned long ircode,
                 const char* sTcpServer,
                 const char* sIP,
                 int frameRate);
