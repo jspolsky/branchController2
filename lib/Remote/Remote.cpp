@@ -1,6 +1,8 @@
 #include <Remote.h>
 #include <Util.h>
 #include <Display.h>
+// TODO - solve the DEBUG conflict that this library introduces (do I have to fork?)
+// TODO - strip out parts of IRremote that I don't need, like protocols we don't use
 #include <IRremote.h>
 
 namespace Remote {
