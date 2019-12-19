@@ -9,7 +9,7 @@ namespace Util {
 
     void setup(void) {
         #ifdef DEBUG
-            uint32_t tmEnd = millis() + 1000;
+            uint32_t tmEnd = millis() + 5000;
             Serial.begin(250000);
             while (!Serial && millis() < tmEnd);
         #endif

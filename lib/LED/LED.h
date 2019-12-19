@@ -13,9 +13,13 @@
 
 namespace LED {
 
+    enum Pattern { patternSolid = 0, patternTest  };    // more  patterns can be added here
+
     void setup();
     void loop();
 
     void setSolidColor(CRGB rgb);
+    void testPattern();
+    bool togglePower();
 
 }

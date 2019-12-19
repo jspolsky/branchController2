@@ -35,7 +35,7 @@ Network Operation
 
 You can connect your branchController to a LAN using the built-in ethernet port and control it from any kind of computer that speaks TCP/IP. We provide sample code in JavaScript showing how to do this.
 
-Every branchController needs an IP address. We use the private range of 172.16.0.0 - 172.16.255.255 for branchControllers. You set the IP address of your branchController by setting the third and the fourth octets to anything you want (but you can't set the fourth octet to 0 or 255). Then, your PC controller can simply connect to the server that will be running at this address and start sending commands.
+Every branchController needs an IP address. We use the private range of 172.16.0.0 - 172.16.255.255. You set the IP address by setting the third and the fourth octets to anything you want (but you can't set the fourth octet to 0 or 255). Then, your PC controller can simply connect to the server that will be running at this address and start sending commands.
 
 The process of setting the address is:
 
@@ -55,6 +55,7 @@ This code was built using PlatformIO, an open source platform for embedded devel
 Next Up
 -------
 
-- [ ] Remote ON/OFF button (without persistence)
-- [ ] EEPROM persistence, saving state when you press OFF and loading it when you press ON
+- [x] Remote ON/OFF button (without persistence)
+- [x] DIY1 button runs test pattern
+- [x] EEPROM persistence, saving state when you press OFF and loading it when you press ON
 - [ ] Implement address selection

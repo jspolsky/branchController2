@@ -11,6 +11,7 @@
 #include <TcpServer.h>
 #include <LED.h>
 #include <Remote.h>
+#include <Persist.h>
 
 void RouteIRCode(unsigned int code);
 
@@ -20,6 +21,7 @@ void setup() {
 
     Heartbeat::setup();
     Util::setup();
+    Persist::setup();
     Display::setup();
     TcpServer::setup();
     LED::setup();
@@ -42,6 +44,8 @@ void loop() {
         RouteIRCode(lastIrCode);
     }
 
+    // TODO Measure Frame Rate
+
     Display::status(lastIrCode, TcpServer::getstatus(), "192.168.1.177", 60);
 }
 
@@ -52,6 +56,22 @@ void RouteIRCode(unsigned int code)
 
     switch(code)
     {
+        case 0xFF02FD:  // POWER
+            if (!LED::togglePower())
+            {
+                Persist::write();
+            }
+            break;
+
+        case 0xFF30CF:  // DIY1
+            LED::testPattern();
+            break;
+
+
+        //
+        // Here are all the colors:
+        //
+
         case 0xFF1AE5: // RED
             LED::setSolidColor(CRGB::Red);
             break;
