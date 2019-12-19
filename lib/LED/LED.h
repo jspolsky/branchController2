@@ -15,4 +15,7 @@ namespace LED {
 
     void setup();
     void loop();
+
+    void setSolidColor(CRGB rgb);
+
 }

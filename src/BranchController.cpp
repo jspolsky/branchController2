@@ -12,6 +12,8 @@
 #include <LED.h>
 #include <Remote.h>
 
+void RouteIRCode(unsigned int code);
+
 void setup() {
 
     dbgprintf("Begin\n");
@@ -37,7 +39,98 @@ void loop() {
     if (Remote::loop())
     {
         lastIrCode = Remote::lastResult;
+        RouteIRCode(lastIrCode);
     }
 
     Display::status(lastIrCode, TcpServer::getstatus(), "192.168.1.177", 60);
+}
+
+void RouteIRCode(unsigned int code)
+{
+    // IR codes: https://gist.github.com/Derpidoo/e3042055e0f5c3708f9b98b75fe4d59e
+    // or just try hitting a button to see what you get :) 
+
+    switch(code)
+    {
+        case 0xFF1AE5: // RED
+            LED::setSolidColor(CRGB::Red);
+            break;
+
+        case 0xFF2AD5:  // RED ROW 2
+            LED::setSolidColor(CHSV(16, 255, 255));
+            break;
+
+        case 0xFF0AF5:  // RED ROW 3
+            LED::setSolidColor(CHSV(32, 255, 255));
+            break;
+
+        case 0xFF38C7:  // RED ROW 4
+            LED::setSolidColor(CHSV(48, 255, 255));
+            break;
+    
+        case 0xFF18E7:  // RED ROW 5
+            LED::setSolidColor(CHSV(64, 255, 255));
+            break;
+
+        case 0xFF9A65:  // GREEN
+            LED::setSolidColor(CRGB::Green);
+            break;
+
+        case 0xFFAA55:  // GREEN ROW 2
+            LED::setSolidColor(CHSV(108, 255, 255));
+            break;
+
+        case 0xFF8A75:  // GREEN ROW 3
+            LED::setSolidColor(CHSV(121, 255, 255));
+            break;
+
+        case 0xFFB847:  // GREEN ROW 4
+            LED::setSolidColor(CHSV(134, 255, 255));
+            break;
+
+        case 0xFF9867:  // GREEN ROW 5
+            LED::setSolidColor(CHSV(147, 255, 255));
+            break;
+
+        case 0xFFA25D:  // BLUE
+            LED::setSolidColor(CRGB::Blue);
+            break;
+
+        case 0xFF926D:  // BLUE ROW 2
+            LED::setSolidColor(CHSV(179, 255, 255));
+            break;
+
+        case 0xFFB24D:  // BLUE ROW 3
+            LED::setSolidColor(CHSV(198, 255, 255));
+            break;
+
+        case 0xFF7887:  // BLUE ROW 4
+            LED::setSolidColor(CHSV(217,255,255));
+            break;
+
+        case 0xFF58A7:  // BLUE ROW 5
+            LED::setSolidColor(CHSV(236, 255, 255));
+            break;
+
+        case 0xFF22DD:  // WHITE
+            LED::setSolidColor(CRGB::White);
+            break;
+
+        case 0xFF12ED:  // WHITE ROW 2
+            LED::setSolidColor(CRGB(192, 192, 192));
+            break;
+
+        case 0xFF32CD:  // WHITE ROW 3
+            LED::setSolidColor(CRGB(128, 128, 128));
+            break;
+
+        case 0xFFF807:  // WHITE ROW 4
+            LED::setSolidColor(CRGB(64, 64, 64));
+            break;
+
+        case 0xFFD827:  // WHITE ROW 5
+            LED::setSolidColor(CRGB(32, 32, 32));
+            break;
+        
+    }
 }

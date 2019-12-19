@@ -5,6 +5,9 @@ namespace LED {
 
     CRGB leds[NUM_STRIPS * NUM_LEDS_PER_STRIP];
 
+    bool bModeSolidColor = false;
+    CRGB rgbSolidColor;
+
     void setup() {
 
         LEDS.addLeds<OCTOWS2811>(leds, NUM_LEDS_PER_STRIP);
@@ -14,12 +17,17 @@ namespace LED {
 
     void loop() {
 
+        if (bModeSolidColor)
+        {
+            LEDS.showColor(rgbSolidColor);
+            return;
+        }
+
         static uint8_t hue = 0;
 
         for(int i = 0; i < NUM_STRIPS; i++) {
             for(int j = 0; j < NUM_LEDS_PER_STRIP; j++) {
             leds[(i*NUM_LEDS_PER_STRIP) + j] = CHSV((32*i) + hue+j,192,255);
-            // if (j % 20 == 0) leds[(i*NUM_LEDS_PER_STRIP) + j] = CRGB::White;
             }
         }
 
@@ -33,7 +41,12 @@ namespace LED {
         hue++;
 
         LEDS.show();
+    }
 
+    void setSolidColor(CRGB rgb)
+    {
+        bModeSolidColor = true;
+        rgbSolidColor = rgb;
     }
 
 }
