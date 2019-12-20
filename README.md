@@ -35,21 +35,10 @@ Network Operation
 
 You can connect your branchController to a LAN using the built-in ethernet port and control it from any kind of computer that speaks TCP/IP. We provide sample code in JavaScript showing how to do this.
 
-Every branchController needs an IP address. We use the private range of 172.16.0.0 - 172.16.255.255. You set the IP address by setting the third and the fourth octets to anything you want (but you can't set the fourth octet to 0 or 255). Then, your PC controller can simply connect to the server that will be running at this address and start sending commands.
-
-The process of setting the address is:
-
-* Physically unplug the network cable. You can only change the address when the network cable is unplugged. This is a precaution against accidentally changing the address of multiple devices at the same time because the IR receivers are too close together
-* Press and hold the `AUTO` button on the remote until the OLED screen switches into Address Programming mode
-* Use the Red Up/Down to set the third octet and the Green Up/Down to set the fourth octet
-* When you have selected your new address press `AUTO` again to save it.
-* Put back the network cable. Your controller will start listening for connections at this new IP address.
-
-
 About the project
 -----------------
 
-This code was built using PlatformIO, an open source platform for embedded development which is a million times better than using the Arduino IDE. You will still need Teensyduino to flash the Teensy. For more about the research behind this project, follow my blog, [BlinkyLights](https://blinkylights.blog/).
+This code was built using PlatformIO, an open source platform for embedded development which is a zillion times better than using the Arduino IDE. You will still need Teensyduino to flash the Teensy. For more about the research behind this project, follow my blog, [BlinkyLights](https://blinkylights.blog/).
 
 
 Next Up
@@ -59,3 +48,5 @@ Next Up
 - [x] DIY1 button runs test pattern
 - [x] EEPROM persistence, saving state when you press OFF and loading it when you press ON
 - [ ] Implement address selection
+- [x] Hardware test 100 ohm resistor array
+- [x] Hardware test SN74HCT245N level shifter

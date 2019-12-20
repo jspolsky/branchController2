@@ -4,16 +4,10 @@
 #include <BranchController.h>
 #include <Ethernet.h>
 #include <Display.h>
+#include <Persist.h>
+#include <MacAddress.h>
 
 namespace TcpServer {
-
-    // Enter a MAC address and IP address for your controller below.
-    // The IP address will be dependent on your local network:
-    byte mac[] = {
-        0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED
-    };
-    
-    IPAddress ip(192, 168, 1, 177);
 
     enum Status { uninitialized, noHardware, noCable, ready, connected };
     Status status = uninitialized;
@@ -25,8 +19,15 @@ namespace TcpServer {
 
     void setup() {
 
+        MacAddress::read();
+
         Ethernet.init(pinEthernetCS); 
-        Ethernet.begin(mac, ip);
+        
+        IPAddress ip(192,168,1,203);
+        
+        Ethernet.begin(MacAddress::mac, ip);
+
+        dbgprintf("Ethernet setup IP address %d.%d.%d.%d\n", Ethernet.localIP()[0], Ethernet.localIP()[1], Ethernet.localIP()[2], Ethernet.localIP()[3] );
 
         // Check for Ethernet hardware present
         if (Ethernet.hardwareStatus() == EthernetNoHardware) 
@@ -34,8 +35,6 @@ namespace TcpServer {
             status = noHardware;
             return;
         }
-
-        // Display::text(Ethernet.localIP());
     }
 
 

@@ -12,8 +12,8 @@ namespace Persist {
 
         memset(&data, 0, sizeof(data));
         data.cb = sizeof(data);
-        data.ip3 = 0;
-        data.ip4 = 1;
+        data.ip3 = 2;
+        data.ip4 = 100;
         data.rgbSolidColor = CRGB::Black;
         data.pattern = (uint8_t) 1; // LED::patternTest
         data.brightness = 32;
@@ -49,7 +49,7 @@ namespace Persist {
             dbgprintf("Signature not found - not reading from EEPROM\n");
         }
 
-        dbgprintf("cb: %d ip: 172.16.%d.%d color: %x,%x,%x pattern: %d brightness: %d\n",
+        dbgprintf("cb: %d ip: 192.168.%d.%d color: %x,%x,%x pattern: %d brightness: %d\n",
             data.cb,
             data.ip3,
             data.ip4,
