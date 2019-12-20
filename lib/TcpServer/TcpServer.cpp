@@ -9,7 +9,7 @@
 
 namespace TcpServer {
 
-    enum Status { uninitialized, noHardware, noCable, ready, connected };
+    enum Status { uninitialized, noHardware, noCable, noDHCP, ready, connected };
     Status status = uninitialized;
 
     // Initialize the Ethernet server library
@@ -20,40 +20,57 @@ namespace TcpServer {
     void setup() {
 
         MacAddress::read();
+        Ethernet.init(pinEthernetCS);
 
-        Ethernet.init(pinEthernetCS); 
-        
-        IPAddress ip(192,168,1,203);
-        
-        Ethernet.begin(MacAddress::mac, ip);
+        // Wait up to 5 seconds for linkStatus to return LinkON , because
+        // sometimes when the hardware is first
+        // powering up it still returns LinkOFF even if there is a cable.
 
-        dbgprintf("Ethernet setup IP address %d.%d.%d.%d\n", Ethernet.localIP()[0], Ethernet.localIP()[1], Ethernet.localIP()[2], Ethernet.localIP()[3] );
-
-        // Check for Ethernet hardware present
-        if (Ethernet.hardwareStatus() == EthernetNoHardware) 
+        uint32_t mTimeout = millis() + 5000;
+        while (millis() < mTimeout && Ethernet.linkStatus() == LinkOFF)
         {
-            status = noHardware;
+            delay(10);
+        }
+
+        if (Ethernet.linkStatus() == LinkOFF)
+        {
+            dbgprintf("Ethernet link status OFF\n");
+            status = noCable;
+            return;
+        }        
+
+        dbgprintf("DHCP beginning\n");
+
+        if (0 == Ethernet.begin(MacAddress::mac))
+        {
+
+            // Check for Ethernet hardware present
+            if (Ethernet.hardwareStatus() == EthernetNoHardware) 
+            {
+                dbgprintf("No Ethernet Hardware\n");
+                status = noHardware;
+                return;
+            }
+
+            dbgprintf("No DHCP Server\n");
+            status = noDHCP;
             return;
         }
+
+        dbgprintf("DHCP IP address %d.%d.%d.%d\n", Ethernet.localIP()[0], Ethernet.localIP()[1], Ethernet.localIP()[2], Ethernet.localIP()[3] );
+        dbgprintf("DHCP Net Mash   %d.%d.%d.%d\n", Ethernet.subnetMask()[0], Ethernet.subnetMask()[1], Ethernet.subnetMask()[2], Ethernet.subnetMask()[3] );
+        dbgprintf("DHCP Gateway    %d.%d.%d.%d\n", Ethernet.gatewayIP()[0], Ethernet.gatewayIP()[1], Ethernet.gatewayIP()[2], Ethernet.gatewayIP()[3] );
+
+        server.begin();
+        status = ready;
+
     }
 
 
     void loop() {
 
-        if (status == noHardware) 
+        if (status == noHardware || status == noDHCP || status == noCable)
             return;
-
-        if (Ethernet.linkStatus() == LinkOFF)
-        {
-            status = noCable;
-            return;
-        }
-        else
-        {
-            server.begin();
-            status = ready;
-        }
-
 
         // listen for incoming clients
         EthernetClient client = server.available();
@@ -104,6 +121,10 @@ namespace TcpServer {
         client.stop();
         dbgprintf("client disconnected\n");
         }
+
+
+        Ethernet.maintain();
+
     }
 
     const char* getstatus()

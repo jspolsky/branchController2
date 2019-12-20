@@ -21,8 +21,6 @@ namespace Persist {
     struct persistence_t {
 
         uint16_t    cb;             // Must always be sizeof(persistence_t) - for versioning
-        uint8_t     ip3;            // third octet of IP address
-        uint8_t     ip4;            // fourth octet of IP address
 
         CRGB        rgbSolidColor;  // current color to display 
         uint8_t     pattern;        // whether we are in solid color mode (0) or test pattern (1) -- maps to enum Pattern in LED.cpp
