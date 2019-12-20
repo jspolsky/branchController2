@@ -9,6 +9,7 @@ namespace TcpServer {
 
     void setup();
     void loop();
-    const char* getstatus();
+
+    bool initialized();
 
 }

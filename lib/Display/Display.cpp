@@ -34,7 +34,12 @@ namespace Display {
        
     }
 
-    void text(const char* s) {
+
+    void status(int line,
+                const char* msg)
+    {
+        static char lines[4][22];
+        strlcpy(lines[line], msg, 22);
 
         if (!fDisplayOK) return;
 
@@ -42,22 +47,18 @@ namespace Display {
 
         display.setTextSize(1);      // Normal 1:1 pixel scale
         display.setTextColor(SSD1306_WHITE); // Draw white text
-        display.setCursor(0, 0);     // Start at top-left corner
         display.cp437(true);         // Use full 256 char 'Code Page 437' font
+        display.setCursor(0, 0);     // Start at top-left corner
 
-        display.printf("%s", s);
+        display.printf("%s", lines[0]);
+        display.setCursor(0, 8);
+        display.printf("%s", lines[1]);
+        display.setCursor(0, 16);
+        display.printf("%s", lines[2]);
+        display.setCursor(0, 24);
+        display.printf("%s", lines[3]);
 
-        display.display();        
-    }
-
-    void status(unsigned long ircode,
-                const char* sTcpServer,
-                const char* sIP,
-                int frameRate) {
-
-        char rgch[100];
-        sprintf(rgch, "IR: %lx\nEth: %s\nIP: %s\nSpeed: %d fps", ircode, sTcpServer, sIP, frameRate);
-        text(rgch);
+        display.display();   
     }
 
 

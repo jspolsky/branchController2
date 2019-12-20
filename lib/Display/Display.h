@@ -8,11 +8,7 @@
 namespace Display {
 
     void setup();
-    void text(const char* s);     // Display some text
-    void status(unsigned long ircode,
-                const char* sTcpServer,
-                const char* sIP,
-                int frameRate);
+    void status(int line, const char* msg);
 
     #ifdef ADAFRUIT_SAMPLE_CODE
         void adafruitSampleCode();  // Runs an infinite loop of adafruit sample code, consisting of these functions:

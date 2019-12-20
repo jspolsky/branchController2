@@ -49,5 +49,4 @@ Next Up
 -------
 
 - [ ] Display network status, MAC, TCP-IP on the screen
-- [ ] Some way to restart (start) network if Ethernet is plugged in later
-
+- [ ] Some way to restart (start) network if Ethernet is plugged in later. 

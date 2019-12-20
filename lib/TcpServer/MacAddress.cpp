@@ -1,5 +1,6 @@
 #include <MacAddress.h>
 #include <Util.h>
+#include <Display.h>
 
 namespace MacAddress {
  
@@ -25,10 +26,15 @@ namespace MacAddress {
     }
 
     void read() {
+        
         readpart(0xe,mac,0);
         readpart(0xf,mac,3);
 
-        dbgprintf("Mac Address: %x:%x:%x:%x:%x:%x\n", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+        char rgch[22];
+        sprintf(rgch, "MAC %02X:%02X:%02X:%02X:%02X:%02X",
+            mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+        Display::status(1, rgch);
+
     }
 
 }

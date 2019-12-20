@@ -45,14 +45,13 @@ void loop() {
     }
 
     // TODO Measure Frame Rate
-
-    Display::status(lastIrCode, TcpServer::getstatus(), "192.168.1.177", 60);
 }
 
 void RouteIRCode(unsigned int code)
 {
     // IR codes: https://gist.github.com/Derpidoo/e3042055e0f5c3708f9b98b75fe4d59e
     // or just try hitting a button to see what you get :) 
+    Display::status(3, "");
 
     switch(code)
     {
@@ -60,6 +59,14 @@ void RouteIRCode(unsigned int code)
             if (!LED::togglePower())
             {
                 Persist::write();
+            }
+            break;
+
+        case 0xFFF00F:  // AUTO - reinitialize network plz
+            if (!TcpServer::initialized())
+            {
+                Display::status(3, "");
+                TcpServer::setup();
             }
             break;
 
@@ -151,6 +158,11 @@ void RouteIRCode(unsigned int code)
         case 0xFFD827:  // WHITE ROW 5
             LED::setSolidColor(CRGB(32, 32, 32));
             break;
+
+        default:
+            char rgch[22];
+            sprintf(rgch, "IR %X ??", code);
+            Display::status(3, rgch);
         
     }
 }

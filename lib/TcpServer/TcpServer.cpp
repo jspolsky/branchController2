@@ -16,6 +16,7 @@ namespace TcpServer {
     // with the IP address and port you want to use
     // (port 80 is default for HTTP):
     EthernetServer server(80);
+    const char* rgchRetry = "Press AUTO to connect";
 
     void setup() {
 
@@ -26,6 +27,7 @@ namespace TcpServer {
         // sometimes when the hardware is first
         // powering up it still returns LinkOFF even if there is a cable.
 
+        Display::status(0, "Obtaining IP Address");
         uint32_t mTimeout = millis() + 5000;
         while (millis() < mTimeout && Ethernet.linkStatus() == LinkOFF)
         {
@@ -36,6 +38,8 @@ namespace TcpServer {
         {
             dbgprintf("Ethernet link status OFF\n");
             status = noCable;
+            Display::status(0, "Cable Disconnected");
+            Display::status(3, rgchRetry);
             return;
         }        
 
@@ -49,13 +53,20 @@ namespace TcpServer {
             {
                 dbgprintf("No Ethernet Hardware\n");
                 status = noHardware;
+                Display::status(0, "No ethernet port");
                 return;
             }
 
             dbgprintf("No DHCP Server\n");
             status = noDHCP;
+            Display::status(0, "No DHCP Server");
+            Display::status(3, rgchRetry);
             return;
         }
+
+        char rgch[22];
+        sprintf(rgch, "IP %d.%d.%d.%d", Ethernet.localIP()[0], Ethernet.localIP()[1], Ethernet.localIP()[2], Ethernet.localIP()[3]);
+        Display::status(0, rgch);
 
         dbgprintf("DHCP IP address %d.%d.%d.%d\n", Ethernet.localIP()[0], Ethernet.localIP()[1], Ethernet.localIP()[2], Ethernet.localIP()[3] );
         dbgprintf("DHCP Net Mash   %d.%d.%d.%d\n", Ethernet.subnetMask()[0], Ethernet.subnetMask()[1], Ethernet.subnetMask()[2], Ethernet.subnetMask()[3] );
@@ -127,16 +138,9 @@ namespace TcpServer {
 
     }
 
-    const char* getstatus()
+    bool initialized()
     {
-        switch(status)
-        {
-            case uninitialized:     return "Unitialized";
-            case noHardware:        return "No Hardware";
-            case noCable:           return "No Cable";
-            case ready:             return "Ready";
-            case connected:         return "Connected";
-            default:                return "?";
-        }
+        return (status == ready);
     }
+
 }
