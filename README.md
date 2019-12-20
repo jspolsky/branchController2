@@ -33,7 +33,11 @@ The DIY1-6 buttons are reserved for internal test patterns and chases. You can e
 Network Operation
 -----------------
 
-You can connect your branchController to a LAN using the built-in ethernet port and control it from any kind of computer that speaks TCP/IP. We provide sample code in JavaScript showing how to do this.
+You can connect your branchController to a LAN using the built-in ethernet port and control it from any kind of computer that speaks TCP/IP.
+
+When branchController starts up, it will look for a DHCP server and try to get an IP address and network configuration. If that works it will show you the IP address on the screen.
+
+Every branch controller has a unique MAC address which will never change, so you can configure your DHCP server to always hand out the same IP address to the same branch controller, which makes it easier to sort out multiple branch controllers.
 
 About the project
 -----------------
@@ -44,9 +48,6 @@ This code was built using PlatformIO, an open source platform for embedded devel
 Next Up
 -------
 
-- [x] Remote ON/OFF button (without persistence)
-- [x] DIY1 button runs test pattern
-- [x] EEPROM persistence, saving state when you press OFF and loading it when you press ON
-- [ ] Implement address selection
-- [x] Hardware test 100 ohm resistor array
-- [x] Hardware test SN74HCT245N level shifter
+- [ ] Display network status, MAC, TCP-IP on the screen
+- [ ] Some way to restart (start) network if Ethernet is plugged in later
+
