@@ -15,10 +15,12 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 namespace Display {
 
     bool fDisplayOK = false;
+    bool fOn = false;
+    char lines[4][22];
 
     void setup() {
 
-        fDisplayOK = false;
+        fDisplayOK = fOn = false;
 
         // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
         if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_I2C_ADDR)) {
@@ -26,39 +28,51 @@ namespace Display {
             return;
         }
 
-        fDisplayOK = true;
+        display.setTextSize(1);      // Normal 1:1 pixel scale
+        display.setTextColor(SSD1306_WHITE); // Draw white text
+        display.cp437(true);         // Use full 256 char 'Code Page 437' font
 
-        #ifdef ADAFRUIT_SAMPLE_CODE
-            adafruitSampleCode();
-        #endif
-       
+        fDisplayOK = fOn = true;
     }
 
+    void off() 
+    {
+        if (!fDisplayOK) return;
+        fOn = false;
+        write_lines();
+    }
+
+    void on()
+    {
+        if (!fDisplayOK) return;
+        fOn = true;
+        write_lines();
+    }
+
+    void write_lines()
+    {
+        display.clearDisplay();
+        if (fOn) 
+        {
+            display.setCursor(0, 0);     // Start at top-left corner
+            display.printf("%s", lines[0]);
+            display.setCursor(0, 8);
+            display.printf("%s", lines[1]);
+            display.setCursor(0, 16);
+            display.printf("%s", lines[2]);
+            display.setCursor(0, 24);
+            display.printf("%s", lines[3]);
+        }
+        display.display();   
+    }
 
     void status(int line,
                 const char* msg)
     {
-        static char lines[4][22];
-        strlcpy(lines[line], msg, 22);
-
         if (!fDisplayOK) return;
-
-        display.clearDisplay();
-
-        display.setTextSize(1);      // Normal 1:1 pixel scale
-        display.setTextColor(SSD1306_WHITE); // Draw white text
-        display.cp437(true);         // Use full 256 char 'Code Page 437' font
-        display.setCursor(0, 0);     // Start at top-left corner
-
-        display.printf("%s", lines[0]);
-        display.setCursor(0, 8);
-        display.printf("%s", lines[1]);
-        display.setCursor(0, 16);
-        display.printf("%s", lines[2]);
-        display.setCursor(0, 24);
-        display.printf("%s", lines[3]);
-
-        display.display();   
+        
+        strlcpy(lines[line], msg, 22);
+        write_lines();
     }
 
 

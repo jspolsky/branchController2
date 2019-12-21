@@ -9,6 +9,9 @@ namespace Display {
 
     void setup();
     void status(int line, const char* msg);
+    void write_lines();
+    void off(); 
+    void on();
 
     #ifdef ADAFRUIT_SAMPLE_CODE
         void adafruitSampleCode();  // Runs an infinite loop of adafruit sample code, consisting of these functions:

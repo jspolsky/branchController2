@@ -56,8 +56,15 @@ void RouteIRCode(unsigned int code)
     switch(code)
     {
         case 0xFF02FD:  // POWER
-            if (!LED::togglePower())
+            if (LED::togglePower())
             {
+                // switched on
+                Display::on();
+            }
+            else
+            {
+                // switched off
+                Display::off();
                 Persist::write();
             }
             break;
