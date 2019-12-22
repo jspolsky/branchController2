@@ -1,0 +1,14 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP Adafruit_4400_OLED
+D Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)
+K connector
+F ~
+$ENDCMP
+#
+$CMP WIZ850io
+D Networking Modules W5500 + MAG Jack ioPlatform Mod
+F http://wizwiki.net/wiki/doku.php?id=products:wiz850io:start#hardware_specification
+$ENDCMP
+#
+#End Doc Library

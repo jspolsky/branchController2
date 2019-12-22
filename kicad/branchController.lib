@@ -1,0 +1,61 @@
+EESchema-LIBRARY Version 2.4
+#encoding utf-8
+#
+# Adafruit_4400_OLED
+#
+DEF Adafruit_4400_OLED J 0 40 Y N 1 F N
+F0 "J" 0 300 50 H V C CNN
+F1 "Adafruit_4400_OLED" 0 -400 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ Connector*:*_1x??_*
+$ENDFPLIST
+DRAW
+S -50 -295 0 -305 1 1 6 N
+S -50 -195 0 -205 1 1 6 N
+S -50 -95 0 -105 1 1 6 N
+S -50 5 0 -5 1 1 6 N
+S -50 105 0 95 1 1 6 N
+S -50 205 0 195 1 1 6 N
+S -50 250 50 -350 1 1 10 f
+X PIN_5 3VO -200 -200 150 R 50 50 1 1 N
+X Pin_4 GND -200 -100 150 R 50 50 1 1 W
+X Pin_3 RESET -200 0 150 R 50 50 1 1 N
+X Pin_2 SCL -200 100 150 R 50 50 1 1 I
+X PIN_1 SDA -200 200 150 R 50 50 1 1 I
+X Pin_6 VIN -200 -300 150 R 50 50 1 1 W
+ENDDRAW
+ENDDEF
+#
+# WIZ850io
+#
+DEF WIZ850io IC 0 30 Y Y 1 F N
+F0 "IC" 1150 300 50 H V L CNN
+F1 "WIZ850io" 1150 200 50 H V L CNN
+F2 "WIZ850io" 1150 100 50 H I L CNN
+F3 "http://wizwiki.net/wiki/doku.php?id=products:wiz850io:start#hardware_specification" 1150 0 50 H I L CNN
+F4 "Networking Modules W5500 + MAG Jack ioPlatform Mod" 1150 -100 50 H I L CNN "Description"
+F5 "12" 1150 -200 50 H I L CNN "Height"
+F6 "950-WIZ850IO" 1150 -300 50 H I L CNN "Mouser Part Number"
+F7 "https://www.mouser.com/Search/Refine.aspx?Keyword=950-WIZ850IO" 1150 -400 50 H I L CNN "Mouser Price/Stock"
+F8 "WIZnet Inc" 1150 -500 50 H I L CNN "Manufacturer_Name"
+F9 "WIZ850io" 1150 -600 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+P 5 0 1 6 200 100 1100 100 1100 -600 200 -600 200 100 N
+X GND_1 1 0 0 200 R 50 50 0 0 U
+X NC 10 1300 -300 200 L 50 50 0 0 N
+X RSTN 11 1300 -400 200 L 50 50 0 0 U
+X MISO 12 1300 -500 200 L 50 50 0 0 U
+X GND_2 2 0 -100 200 R 50 50 0 0 U
+X MOSI 3 0 -200 200 R 50 50 0 0 U
+X SCLK 4 0 -300 200 R 50 50 0 0 U
+X SCNN 5 0 -400 200 R 50 50 0 0 U
+X INTN 6 0 -500 200 R 50 50 0 0 U
+X GND_3 7 1300 0 200 L 50 50 0 0 U
+X 3.3V_1 8 1300 -100 200 L 50 50 0 0 U
+X 3.3V_2 9 1300 -200 200 L 50 50 0 0 U
+ENDDRAW
+ENDDEF
+#
+#End Library
