@@ -48,5 +48,8 @@ This code was built using PlatformIO, an open source platform for embedded devel
 Next Up
 -------
 
-- [ ] Display network status, MAC, TCP-IP on the screen
-- [ ] Some way to restart (start) network if Ethernet is plugged in later. 
+- [X] Display network status, MAC, TCP-IP on the screen
+- [X] Some way to restart (start) network if Ethernet is plugged in later. 
+- [ ] Brightness control from remote (plus save and load)
+- [ ] On/Off to turn off heartbeat
+- [ ] Frame rate calculation
