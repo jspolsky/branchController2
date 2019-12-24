@@ -5,6 +5,8 @@
 
 #include <Arduino.h>
 
+#define CB_DISPLAY_LINE 22
+
 namespace Display {
 
     void setup();

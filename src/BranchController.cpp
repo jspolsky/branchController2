@@ -40,8 +40,21 @@ void loop() {
     LED::loop();
     if (Remote::loop())
     {
-        lastIrCode = Remote::lastResult;
-        RouteIRCode(lastIrCode);
+        if (Remote::lastResult == 0xFFFFFFFF)
+        {
+            // repeat command! -- if it's a repeatable command
+            // like brightness up/down. 
+            if (lastIrCode == 0xFF3AC5 ||
+                lastIrCode == 0xFFBA45)
+            {
+                RouteIRCode(lastIrCode);
+            }
+        }
+        else
+        {
+            lastIrCode = Remote::lastResult;
+            RouteIRCode(lastIrCode);
+        }
     }
 
     // TODO Measure Frame Rate
@@ -52,6 +65,7 @@ void RouteIRCode(unsigned int code)
     // IR codes: https://gist.github.com/Derpidoo/e3042055e0f5c3708f9b98b75fe4d59e
     // or just try hitting a button to see what you get :) 
     Display::status(3, "");
+    char rgchBuf[CB_DISPLAY_LINE];
 
     switch(code)
     {
@@ -75,6 +89,22 @@ void RouteIRCode(unsigned int code)
                 Display::status(3, "");
                 TcpServer::setup();
             }
+            break;
+
+        case 0xFF3AC5:  // Brightness up
+            
+            sprintf(rgchBuf, 
+                    "Brightness: %d", 
+                    LED::brighter());
+            Display::status(3, rgchBuf);
+            break;
+
+        case 0xFFBA45:  // Brightness down
+
+            sprintf(rgchBuf, 
+                    "Brightness: %d", 
+                    LED::dimmer());
+            Display::status(3, rgchBuf);
             break;
 
         case 0xFF30CF:  // DIY1
@@ -167,9 +197,8 @@ void RouteIRCode(unsigned int code)
             break;
 
         default:
-            char rgch[22];
-            sprintf(rgch, "IR %X ??", code);
-            Display::status(3, rgch);
+            sprintf(rgchBuf, "IR %X ??", code);
+            Display::status(3, rgchBuf);
         
     }
 }

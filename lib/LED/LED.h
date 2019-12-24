@@ -19,6 +19,8 @@ namespace LED {
     void loop();
 
     void setSolidColor(CRGB rgb);
+    uint8_t brighter();
+    uint8_t dimmer();
     void testPattern();
     bool togglePower();
 

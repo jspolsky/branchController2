@@ -1,6 +1,7 @@
 #include <LED.h>
 #include <Util.h>
 #include <Persist.h>
+#include <Display.h>
 
 namespace LED {
 
@@ -10,11 +11,16 @@ namespace LED {
 
     bool fPowerOn = true;
     CRGB rgbSolidColor;
+    uint32_t tmFrameStart;
+    uint32_t cFrames;
 
     void setup() {
 
+        tmFrameStart = millis();
+        cFrames = 0;
+
         LEDS.addLeds<OCTOWS2811>(leds, NUM_LEDS_PER_STRIP);
-        LEDS.setBrightness(BRIGHTNESS);
+        LEDS.setBrightness(Persist::data.brightness);
 
         pattern = (enum Pattern) Persist::data.pattern;
         rgbSolidColor = Persist::data.rgbSolidColor;
@@ -55,6 +61,18 @@ namespace LED {
         hue++;
 
         LEDS.show();
+        cFrames++;
+
+        // frame rate calc
+        if (millis() > (tmFrameStart + 1000))
+        {
+            char rgchBuf[CB_DISPLAY_LINE];
+            sprintf(rgchBuf,"Frame rate: %d\n", cFrames);
+            Display::status(2,rgchBuf);
+            cFrames = 0;
+            tmFrameStart = millis();
+        }
+
     }
 
     void setSolidColor(CRGB rgb) {
@@ -65,6 +83,24 @@ namespace LED {
         Persist::data.pattern = (uint8_t) pattern;
         Persist::data.rgbSolidColor = rgb;
 
+    }
+
+    uint8_t brighter() {
+        uint8_t b = LEDS.getBrightness();
+        if (b < 255)
+            b++;
+        LEDS.setBrightness(b);
+        Persist::data.brightness = b;
+        return b;
+    }
+
+    uint8_t dimmer() {
+        uint8_t b = LEDS.getBrightness();
+        if (b > 1)
+            b--;
+        LEDS.setBrightness(b);
+        Persist::data.brightness = b;
+        return b;
     }
 
     void testPattern() {

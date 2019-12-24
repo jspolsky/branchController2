@@ -16,7 +16,7 @@ namespace Display {
 
     bool fDisplayOK = false;
     bool fOn = false;
-    char lines[4][22];
+    char lines[4][CB_DISPLAY_LINE];
 
     void setup() {
 
@@ -71,7 +71,7 @@ namespace Display {
     {
         if (!fDisplayOK) return;
         
-        strlcpy(lines[line], msg, 22);
+        strlcpy(lines[line], msg, CB_DISPLAY_LINE);
         write_lines();
     }
 

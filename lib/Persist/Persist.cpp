@@ -14,7 +14,7 @@ namespace Persist {
         data.cb = sizeof(data);
         data.rgbSolidColor = CRGB::Black;
         data.pattern = (uint8_t) 1; // LED::patternTest
-        data.brightness = 32;
+        data.brightness = BRIGHTNESS;
         
         dbgprintf("Initializing Persisted Data\n");
 
