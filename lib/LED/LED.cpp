@@ -10,6 +10,7 @@ namespace LED {
     CRGB leds[NUM_STRIPS * NUM_LEDS_PER_STRIP];
 
     bool fPowerOn = true;
+    bool fOpenPixelClientConnected = false;
     CRGB rgbSolidColor;
     uint32_t tmFrameStart;
     uint32_t cFrames;
@@ -33,6 +34,13 @@ namespace LED {
         {
             LEDS.showColor(CRGB::Black);;
             return;
+        }
+
+        if (fOpenPixelClientConnected)
+        {
+            // let the protocol drive the LEDs
+            return;
+            // TODO: THIS DOESN'T CALCULATE FRAME RATE
         }
         
         if (pattern == patternSolid)
@@ -116,5 +124,16 @@ namespace LED {
         return fPowerOn;
 
     }
+
+    void openPixelClientConnection(bool f) {
+        fOpenPixelClientConnected = f;
+    }
+
+    CRGB* getRGBAddress( uint8_t iStrip ) {
+
+        return leds + (iStrip * NUM_LEDS_PER_STRIP);
+
+    }
+
 
 }

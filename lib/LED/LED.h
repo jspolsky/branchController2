@@ -23,5 +23,7 @@ namespace LED {
     uint8_t dimmer();
     void testPattern();
     bool togglePower();
+    void openPixelClientConnection(bool f);
+    CRGB* getRGBAddress( uint8_t iStrip );
 
 }
