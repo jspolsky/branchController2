@@ -52,3 +52,4 @@ Next Up
 - [X] Frame rate calculation
 - [ ] Internet cable disconnected / reconnected
 - [ ] Start to implement OpenPixel Control! :) 
+- [ ] Investigate temporal dithering
