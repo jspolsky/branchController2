@@ -192,8 +192,10 @@ namespace OpenPixelControl {
         if (ixRGB >= cbMessage)
         {
             // done!
-            LEDS.show();
-            bNeedToShow = false;
+            if (bNeedToShow) {
+                LEDS.show();
+                bNeedToShow = false;
+            }
             ixHeader = 0;
             ixRGB = 0;
         }
