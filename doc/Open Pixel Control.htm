@@ -1,0 +1,188 @@
+<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Open Pixel Control</title>
+<link rel=stylesheet href="style.css">
+<style type="text/css">#about { color: #eee; }
+.flag { font-weight: bold; width: 1em; }
+.type { color: #a24; }
+.tag { font-weight: normal; }
+.date { font-size: 80%; padding: 0 0.3em; color: #888; border-left: 1px solid #ccc; }
+.comment { color: #888; }
+tr { vertical-align: baseline; }
+th { text-align: left; font-weight: normal; }
+table { font-size: 100%; border-collapse: collapse; }
+td { padding: 3px 6px; border: 1px solid #666; width: 5em; white-space: nowrap; }
+td.header { background: #fdd; }
+td.data { background: #ddd; }
+</style>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-16545993-6', 'openpixelcontrol.org');
+ga('send', 'pageview');
+</script>
+</head><body>
+<div class="header"><h1>Open Pixel Control</h1>
+ping<img src="at9.png" alt="&#64;">zesty<img src="dot9.png" alt="&#46;">ca</div>
+<div class="content">
+
+<p>Open Pixel Control (OPC) is a simple protocol
+for controlling arrays of RGB lights,
+such as <a href="http://coolneon.com/">Total Control Lighting</a> LEDs.
+
+<p>
+<a href="http://github.com/zestyping/openpixelcontrol">Get the code at github.com</a>.
+
+Show off your creations!
+Tag your photos with <a href="http://www.flickr.com/search/?q=%23openpixelcontrol"><b>openpixelcontrol</b></a>
+on <a href="http://flickr.com/">flickr</a>,
+and <a href="https://www.flickr.com/search/?sort=date-posted-desc&amp;safe_search=1&amp;text=openpixelcontrol&amp;view_all=1" width="100%" height="500" frameborder=1">see everyone else's photos</a>.
+
+<!--
+<p>
+<div style="background: #ffd; padding: 20px; border: 1px solid #cca">
+<p><strong>Coming here from <a href="http://freespace.io/">Freespace</a>?</strong> Welcome!
+
+<p>
+<a href="opc-freespace.png"><img align="right" src="opc-freespace.png" width=149 height=161 style="border: none; margin: 0 0 10px 10px"></a>
+If you'd like to write your own patterns for the Freespace pixel grid,
+have a look at an example, <a href="https://github.com/zestyping/openpixelcontrol/blob/master/python_clients/raver_plaid.py">raver_plaid.py</a>.
+You can run a simulator on your Mac or Linux laptop
+to see how the program will look:
+<p>
+<blockquote style="overflow: auto"><pre>git clone git://github.com/zestyping/openpixelcontrol.git
+cd openpixelcontrol
+make
+bin/gl_server layouts/freespace.json</pre></blockquote>
+Then, in another terminal window:
+<blockquote style="overflow: auto"><pre>python_clients/raver_plaid.py</pre></blockquote>
+
+<p>Or you can run the program directly on the real lights.
+Just plug the USB cable into your laptop and run this command:
+<blockquote><pre>python_clients/raver_plaid.py 192.168.7.2:7890</pre></blockquote>
+
+<p>Now make your own copy of raver_plaid.py and edit it
+to make your own beautiful effects!
+</div>
+-->
+
+<!--
+<object width="267" height="200"> <param name="flashvars" value="offsite=true&lang=en-us&page_show_url=%2Fphotos%2Ftags%2Fopenpixelcontrol%2Fshow%2F&page_show_back_url=%2Fphotos%2Ftags%2Fopenpixelcontrol%2F&tags=openpixelcontrol&jump_to=&start_index="></param> <param name="movie" value="http://www.flickr.com/apps/slideshow/show.swf?v=124984"></param> <param name="allowFullScreen" value="true"></param><embed type="application/x-shockwave-flash" src="http://www.flickr.com/apps/slideshow/show.swf?v=124984" allowFullScreen="true" flashvars="offsite=true&lang=en-us&page_show_url=%2Fphotos%2Ftags%2Fopenpixelcontrol%2Fshow%2F&page_show_back_url=%2Fphotos%2Ftags%2Fopenpixelcontrol%2F&tags=openpixelcontrol&jump_to=&start_index=" width="267" height="200"></embed></object>
+-->
+<h2>Overview</h2>
+
+<p>OPC describes the format of a stream of bytes,
+typically sent over a TCP connection,
+to control an array of RGB lights (pixels).
+The pixels are assumed to be arranged in strands,
+where each pixel has a fixed index in its strand.
+
+<p>
+The purpose of OPC is to separate the generation of light patterns
+from the control of hardware lights.
+If you write a program that emits OPC messages,
+it will be independent of the lighting hardware.
+You can write your animation or interactive display program once,
+and then use the same program with many kinds of lighting hardware,
+as well as a simulator that lets you test and visualize your program
+before wiring it to real lights.
+
+<h2>Specification</h2>
+
+<p>
+An OPC stream consists of a sequence of <dfn>messages</dfn>.
+Each message has a 4-byte header followed by a variable-length data block:
+
+<p>
+<table>
+  <tr>
+    <td class="header">channel</td>
+    <td class="header">command</td>
+    <td class="header" colspan=2>length (n)</td>
+    <td class="data">data</td>
+  </tr>
+  <tr>
+    <td class="header">0 to 255</td>
+    <td class="header">0 to 255</td>
+    <td class="header">high byte</td>
+    <td class="header">low byte</td>
+    <td class="data">n bytes of message data</td>
+  </tr>
+</table>
+
+<p>
+<dfn>Channel</dfn>:
+Up to 255 separate strands of pixels can be controlled.
+Each strand is given a channel number from 1 to 255
+and listens for messages with that channel number.
+Messages with channel 0 are considered broadcast messages;
+all strands should treat a message with channel 0
+as if it were sent on all channels.
+
+<p>
+<dfn>Command</dfn>:
+The command code determines the format of the data
+and the expected behaviour in response to the message.
+Individual commands are defined below.
+
+<p>
+<dfn>Length</dfn>:
+The message data block can have any length from 0 to 65535,
+transmitted as an unsigned two-byte number with the high byte first.
+
+<p>
+<dfn>Data</dfn>:
+The data block must contain
+exactly the number of bytes indicated by the length field,
+from 0 to 65535.
+
+<h2>Commands</h2>
+
+<p>
+<dfn>Set 8-bit pixel colours (command 0)</dfn>:
+The data block contains 8-bit RGB values:
+three bytes in red, green, blue order for each pixel to set.
+If the data block has length 3*n,
+then the first n pixels of the specified channel are set.
+All other pixels are unaffected and retain their current colour values.
+If the data length is not a multiple of 3,
+or there is data for more pixels than are present, the extra data is ignored.
+(Because the maximum data length is 65535,
+this command can control a maximum of 21845 pixels per channel,
+or a maximum of 5570475 pixels on all 255 channels.)
+
+<p>
+<dfn>Set 16-bit pixel colours (command 2)</dfn>:
+The data block contains 16-bit RGB values:
+six bytes for each pixel to set,
+consisting of three 16-bit words in red, green, blue order
+with each two-byte word in big-endian order.
+If the data block has length 6*n,
+then the first n pixels of the specified channel are set.
+All other pixels are unaffected and retain their current colour values.
+If the data length is not a multiple of 6,
+or there is data for more pixels than are present, the extra data is ignored.
+(Because the maximum data length is 65535,
+this command can control a maximum of 10922 pixels per channel,
+or a maximum of 2785110 pixels on all 255 channels.)
+
+<p>
+<dfn>System exclusive (command 255)</dfn>:
+Command 0xff is used to send a message that is specific
+to a particular device or software system.
+The data block should begin with a two-byte system ID;
+designers of that system are then free to define any message format
+for the rest of the data block.
+
+<h2>System IDs</h2>
+
+<p>
+Currently assigned system IDs are as follows:
+<ul>
+<li>00 01: <a href="https://github.com/scanlime/fadecandy">Fadecandy</a>
+<li>00 02: <a href="http://symmetrylabs.com">Symmetry Labs</a>
+</ul>
+</div>

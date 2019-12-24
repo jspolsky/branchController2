@@ -39,6 +39,11 @@ When branchController starts up, it will look for a DHCP server and try to get a
 
 Every branch controller has a unique MAC address which will never change, so you can configure your DHCP server to always hand out the same IP address to the same branch controller, which makes it easier to sort out multiple branch controllers.
 
+Open Pixel Control
+------------------
+
+If branchController successfully gets on the Internet, it will listen for TCP connections on port 7890, where it will receive data sent to it using the Open Pixel Control format, documented [here](http://openpixelcontrol.org/). You can use Christopher Schardt's app [L.E.D. Lab](https://apps.apple.com/us/app/l-e-d-lab/id832042156) for iPhone or iPad to send cool animations -- all you need to do is set up the controller as if it were a FadeCandy controller.
+
 About the project
 -----------------
 
@@ -50,6 +55,8 @@ Next Up
 
 - [X] Brightness control from remote (plus save and load)
 - [X] Frame rate calculation
+- [ ] Start to implement OpenPixel Control
+- [ ] Fix as many compiler warnings as possible
+- [ ] See about shortening strand length at runtime (for better frame rates)
 - [ ] Internet cable disconnected / reconnected
-- [ ] Start to implement OpenPixel Control! :) 
 - [ ] Investigate temporal dithering
