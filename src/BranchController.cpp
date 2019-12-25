@@ -56,8 +56,6 @@ void loop() {
             RouteIRCode(lastIrCode);
         }
     }
-
-    // TODO Measure Frame Rate
 }
 
 void RouteIRCode(unsigned int code)

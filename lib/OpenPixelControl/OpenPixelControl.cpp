@@ -136,6 +136,8 @@ namespace OpenPixelControl {
 
                 if (channel >= ixHighestChannelSeen)
                 {
+                    // TODO is this cheesy? Maybe wait until the second time we see channel 1 to start showing
+
                     bNeedToShow = true;
                     ixHighestChannelSeen = channel;
                 }

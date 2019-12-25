@@ -40,7 +40,6 @@ namespace LED {
         {
             // let the protocol drive the LEDs
             return;
-            // TODO: THIS DOESN'T CALCULATE FRAME RATE
         }
         
         if (pattern == patternSolid)

@@ -55,8 +55,10 @@ Next Up
 
 - [X] Brightness control from remote (plus save and load)
 - [X] Frame rate calculation
-- [ ] Start to implement OpenPixel Control
+- [ ] Finish OpenPixel Control - polish code
+- [ ] How much memory are we using? Try freeMemory()
 - [ ] Fix as many compiler warnings as possible
 - [ ] See about shortening strand length at runtime (for better frame rates)
 - [ ] Internet cable disconnected / reconnected
-- [ ] Investigate temporal dithering
+- [ ] Investigate temporal dithering. If we have fewer pixels, maybe we have time to do it.
+- [ ] Study color correction ... think about a way to configure it
