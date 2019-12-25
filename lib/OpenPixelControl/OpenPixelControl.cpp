@@ -4,6 +4,8 @@
 #include <Display.h>
 #include <LED.h>
 
+// TODO - protocol errors should be on Display:: and should hang up the connection
+
 // implements http://openpixelcontrol.org/
 
 namespace OpenPixelControl {
@@ -194,6 +196,7 @@ namespace OpenPixelControl {
             // done!
             if (bNeedToShow) {
                 LEDS.show();
+                LED::CalculateFrameRate();
                 bNeedToShow = false;
             }
             ixHeader = 0;

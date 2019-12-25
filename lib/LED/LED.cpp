@@ -69,9 +69,14 @@ namespace LED {
         hue++;
 
         LEDS.show();
-        cFrames++;
+        CalculateFrameRate();
 
+    }
+
+    void CalculateFrameRate()
+    {
         // frame rate calc
+        cFrames++;
         if (millis() > (tmFrameStart + 1000))
         {
             char rgchBuf[CB_DISPLAY_LINE];
@@ -80,7 +85,6 @@ namespace LED {
             cFrames = 0;
             tmFrameStart = millis();
         }
-
     }
 
     void setSolidColor(CRGB rgb) {
@@ -126,7 +130,9 @@ namespace LED {
     }
 
     void openPixelClientConnection(bool f) {
+
         fOpenPixelClientConnected = f;
+    
     }
 
     CRGB* getRGBAddress( uint8_t iStrip ) {
