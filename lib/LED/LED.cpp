@@ -13,7 +13,7 @@ namespace LED {
     bool fOpenPixelClientConnected = false;
     CRGB rgbSolidColor;
     uint32_t tmFrameStart;
-    uint32_t cFrames;
+    unsigned int cFrames;
 
     void setup() {
 
@@ -79,7 +79,7 @@ namespace LED {
         if (millis() > (tmFrameStart + 1000))
         {
             char rgchBuf[CB_DISPLAY_LINE];
-            sprintf(rgchBuf,"Frame rate: %d\n", cFrames);
+            sprintf(rgchBuf,"Frame rate: %u\n", cFrames);
             Display::status(2,rgchBuf);
             cFrames = 0;
             tmFrameStart = millis();

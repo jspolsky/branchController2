@@ -59,7 +59,7 @@ void loop() {
         }
     }
 
-    EVERY_N_MINUTES(1)
+    EVERY_N_SECONDS(30)
     {
         dbgprintf("Free memory: %u\n", Util::FreeMem() );
     }
