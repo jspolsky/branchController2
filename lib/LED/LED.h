@@ -9,6 +9,7 @@
 #include <BranchController.h>
 #define USE_OCTOWS2811
 #include <OctoWS2811.h>
+#define FASTLED_INTERNAL
 #include <FastLED.h>
 
 namespace LED {

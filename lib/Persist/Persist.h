@@ -13,6 +13,7 @@
 
 #include <Arduino.h>
 #include <BranchController.h>
+#define FASTLED_INTERNAL
 #include <FastLED.h>
 
 
