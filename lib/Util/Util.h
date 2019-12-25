@@ -9,6 +9,7 @@
 namespace Util 
 {
     void setup(void);
+    uint32_t FreeMem();
 }
 
 void dbgprintf(char const *str, ...);

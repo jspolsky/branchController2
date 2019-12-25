@@ -31,6 +31,8 @@ void setup() {
 
 }
 
+
+
 void loop() {
 
     static unsigned int lastIrCode = 0;
@@ -55,6 +57,11 @@ void loop() {
             lastIrCode = Remote::lastResult;
             RouteIRCode(lastIrCode);
         }
+    }
+
+    EVERY_N_MINUTES(1)
+    {
+        dbgprintf("Free memory: %u\n", Util::FreeMem() );
     }
 }
 

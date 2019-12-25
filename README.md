@@ -56,7 +56,7 @@ Next Up
 - [X] Brightness control from remote (plus save and load)
 - [X] Frame rate calculation
 - [ ] Finish OpenPixel Control - polish code
-- [ ] How much memory are we using? Try freeMemory()
+- [X] How much memory are we using? Try freeMemory()
 - [ ] Fix as many compiler warnings as possible
 - [ ] See about shortening strand length at runtime (for better frame rates)
 - [ ] Internet cable disconnected / reconnected

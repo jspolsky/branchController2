@@ -14,7 +14,25 @@ namespace Util {
             while (!Serial && millis() < tmEnd);
         #endif
     }
+
+    uint32_t FreeMem() { 
+        uint32_t stackTop;
+        uint32_t heapTop;
+
+        // current position of the stack.
+        stackTop = (uint32_t) &stackTop;
+
+        // current position of heap.
+        void* hTop = malloc(1);
+        heapTop = (uint32_t) hTop;
+        free(hTop);
+
+        // The difference is (approximately) the free, available ram.
+        return stackTop - heapTop;
+    }
 }
+
+
 
 void dbgprintf(char const* pszFmt UNUSED_IN_RELEASE, ... ) {
 
