@@ -57,8 +57,10 @@ Next Up
 - [X] Frame rate calculation
 - [ ] Finish OpenPixel Control - polish code
 - [X] How much memory are we using? Try freeMemory()
-- [ ] Fix as many compiler warnings as possible
-- [ ] See about shortening strand length at runtime (for better frame rates)
+- [X] Fix as many compiler warnings as possible
+- [ ] See about shortening strand length at runtime (for better frame rates). Not that controllers have a function void show(const struct CRGB *data, int nLeds, uint8_t brightness) which takes an nLeds
+argument that may work.
 - [ ] Internet cable disconnected / reconnected
 - [ ] Investigate temporal dithering. If we have fewer pixels, maybe we have time to do it.
 - [ ] Study color correction ... think about a way to configure it
+- [ ] Should we implement power function? (Max amps thing)

@@ -7,7 +7,7 @@ namespace LED {
 
     enum Pattern pattern = patternTest;
 
-    CRGB leds[NUM_STRIPS * NUM_LEDS_PER_STRIP];
+    CRGB rgbarray[NUM_STRIPS * NUM_LEDS_PER_STRIP];
 
     bool fPowerOn = true;
     bool fOpenPixelClientConnected = false;
@@ -20,8 +20,9 @@ namespace LED {
         tmFrameStart = millis();
         cFrames = 0;
 
-        LEDS.addLeds<OCTOWS2811>(leds, NUM_LEDS_PER_STRIP);
-        LEDS.setBrightness(Persist::data.brightness);
+        FastLED.addLeds<OCTOWS2811>(rgbarray, NUM_LEDS_PER_STRIP);
+        
+        FastLED.setBrightness(Persist::data.brightness);
 
         pattern = (enum Pattern) Persist::data.pattern;
         rgbSolidColor = Persist::data.rgbSolidColor;
@@ -32,7 +33,7 @@ namespace LED {
 
         if (!fPowerOn)
         {
-            LEDS.showColor(CRGB::Black);;
+            FastLED.showColor(CRGB::Black);;
             return;
         }
 
@@ -44,7 +45,7 @@ namespace LED {
         
         if (pattern == patternSolid)
         {
-            LEDS.showColor(rgbSolidColor);
+            FastLED.showColor(rgbSolidColor);
             return;
         }
 
@@ -54,20 +55,20 @@ namespace LED {
 
         for(int i = 0; i < NUM_STRIPS; i++) {
             for(int j = 0; j < NUM_LEDS_PER_STRIP; j++) {
-            leds[(i*NUM_LEDS_PER_STRIP) + j] = CHSV((32*i) + hue+j,192,255);
+            rgbarray[(i*NUM_LEDS_PER_STRIP) + j] = CHSV((32*i) + hue+j,192,255);
             }
         }
 
         // Set the first n leds on each strip to show which strip it is
         for(int i = 0; i < NUM_STRIPS; i++) {
             for(int j = 0; j <= i; j++) {
-            leds[(i*NUM_LEDS_PER_STRIP) + j] = CRGB(0x65,0x43,0x21);
+            rgbarray[(i*NUM_LEDS_PER_STRIP) + j] = CRGB(0x65,0x43,0x21);
             }
         }
 
         hue++;
 
-        LEDS.show();
+        FastLED.delay(1);
         CalculateFrameRate();
 
     }
@@ -97,19 +98,19 @@ namespace LED {
     }
 
     uint8_t brighter() {
-        uint8_t b = LEDS.getBrightness();
+        uint8_t b = FastLED.getBrightness();
         if (b < 255)
             b++;
-        LEDS.setBrightness(b);
+        FastLED.setBrightness(b);
         Persist::data.brightness = b;
         return b;
     }
 
     uint8_t dimmer() {
-        uint8_t b = LEDS.getBrightness();
+        uint8_t b = FastLED.getBrightness();
         if (b > 1)
             b--;
-        LEDS.setBrightness(b);
+        FastLED.setBrightness(b);
         Persist::data.brightness = b;
         return b;
     }
@@ -136,7 +137,7 @@ namespace LED {
 
     CRGB* getRGBAddress( uint8_t iStrip ) {
 
-        return leds + (iStrip * NUM_LEDS_PER_STRIP);
+        return rgbarray + (iStrip * NUM_LEDS_PER_STRIP);
 
     }
 

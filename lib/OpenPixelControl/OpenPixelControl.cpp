@@ -197,7 +197,7 @@ namespace OpenPixelControl {
         {
             // done!
             if (bNeedToShow) {
-                LEDS.show();
+                FastLED.show();
                 LED::CalculateFrameRate();
                 bNeedToShow = false;
             }
