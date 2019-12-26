@@ -58,9 +58,10 @@ Next Up
 - [ ] Finish OpenPixel Control - polish code
 - [X] How much memory are we using? Try freeMemory()
 - [X] Fix as many compiler warnings as possible
-- [ ] See about shortening strand length at runtime (for better frame rates). Not that controllers have a function void show(const struct CRGB *data, int nLeds, uint8_t brightness) which takes an nLeds
-argument that may work.
+- [X] See about shortening strand length at runtime (for better frame rates).
 - [ ] Internet cable disconnected / reconnected
 - [ ] Investigate temporal dithering. If we have fewer pixels, maybe we have time to do it.
 - [ ] Study color correction ... think about a way to configure it
 - [ ] Should we implement power function? (Max amps thing)
+- [ ] Better built-in (DIY1-6) displays maybe
+- [ ] Support remote control Play/Pause button for internet DIY1-6 displays

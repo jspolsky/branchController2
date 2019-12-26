@@ -133,14 +133,6 @@ namespace LED {
     bool togglePower() {
 
         fPowerOn = !fPowerOn;
-
-        // TODO this is a hacky way to test resizing the FastLED controller temporarily :/ should NOT be here EVER
-        if (fPowerOn) {
-            controller.ChangeSize( 15 );
-            cLEDsPerStrip = 15;
-        }
-
-
         return fPowerOn;
 
     }

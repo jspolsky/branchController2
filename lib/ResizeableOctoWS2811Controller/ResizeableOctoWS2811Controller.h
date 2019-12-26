@@ -85,16 +85,7 @@ public:
 
     }
 
-    // TODO this is a hacky way to test resizing the FastLED controller temporarily
-    // TODO arbitrary number of pixels
-    // TODO hook it up to network code so we adjust based on what they send
-    // TODO can we inherit from the library's version of this instead of copying so much
-    // TODO the current framerate of 125 or so is niiiiice but seems too slow for just 15 
-    //      pixels per strip. If we start with 15 pixels I get 900 fps! I think the problem
-    //      is that my PixelController still thinks its large so showPixels, right above, is doing
-    //      a lot of work. NOPE. THAT IS NOT THE PROBLEM. IT MIGHT BE MY OWN LOOP() CODE FOR
-    //      TEST PATTERN
-
+    // change the actual size of strips, at runtime!
     void ChangeSize( uint16_t nPixels )
     {
         if (!pocto)
