@@ -4,3 +4,4 @@
 .pio/build/*
 .DS_Store
 branchController.code-workspace
+.vscode/c_cpp_properties.json
