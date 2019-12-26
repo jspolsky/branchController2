@@ -2,6 +2,7 @@
 #include <Util.h>
 #include <Persist.h>
 #include <Display.h>
+#include <ResizeableOctoWS2811Controller.h>
 
 namespace LED {
 
@@ -14,13 +15,15 @@ namespace LED {
     CRGB rgbSolidColor;
     uint32_t tmFrameStart;
     unsigned int cFrames;
+    CResizeableOctoWS2811Controller controller;
 
     void setup() {
 
         tmFrameStart = millis();
         cFrames = 0;
 
-        FastLED.addLeds<OCTOWS2811>(rgbarray, NUM_LEDS_PER_STRIP);
+        FastLED.addLeds(&controller, rgbarray, NUM_LEDS_PER_STRIP);
+        // FastLED.addLeds<OCTOWS2811>(rgbarray, NUM_LEDS_PER_STRIP);
         
         FastLED.setBrightness(Persist::data.brightness);
 
@@ -68,6 +71,8 @@ namespace LED {
 
         hue++;
 
+        // instead of calling show(), we call delay() which guarantees to call show()
+        // but also gives FastLED a chance to do some temporal dithering.
         FastLED.delay(1);
         CalculateFrameRate();
 
@@ -125,6 +130,11 @@ namespace LED {
     bool togglePower() {
 
         fPowerOn = !fPowerOn;
+
+        // TODO this is a hacky way to test resizing the FastLED controller temporarily :/ should NOT be here EVER
+        if (fPowerOn) controller.Only15PixelsBuddy();
+
+
         return fPowerOn;
 
     }
