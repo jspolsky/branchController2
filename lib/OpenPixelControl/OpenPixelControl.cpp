@@ -129,7 +129,7 @@ namespace OpenPixelControl {
                 // for now just warn.
                 // TODO: actually eat the bad message
                 //
-                if (command != 0 || cbMessage == 0 || channel < 1 || channel > 8 || cbMessage > (3 * NUM_LEDS_PER_STRIP))
+                if (command != 0 || cbMessage == 0 || channel < 1 || channel > 8 || cbMessage > (3 * MAX_LEDS_PER_STRIP))
                 {
                     dbgprintf("Suspicious Message - Channel %d - Command %d - Message Size: %d\n", channel, command, cbMessage);
                 }
@@ -180,11 +180,11 @@ namespace OpenPixelControl {
             dbgprintf("I don't get it channel is out of range this is unacceptable\n");
         }
 
-        uint8_t *pstrip = (uint8_t*) LED::getRGBAddress(channel-1);
+        uint8_t *pstrip = (uint8_t*) LED::getRGBAddress(channel-1, cbMessage / 3);
         size_t cbToRead = min(cbAvail, cbMessage - ixRGB);
         
         // bounds checkings!
-        if (ixRGB + cbToRead > (3*NUM_LEDS_PER_STRIP))
+        if (ixRGB + cbToRead > (3*MAX_LEDS_PER_STRIP))
         {
             dbgprintf("Impossible situation - too many bytes\n");
             return;

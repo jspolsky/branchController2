@@ -6,9 +6,11 @@
 
 namespace LED {
 
+    const uint8_t NUM_STRIPS  = 8;            /* Don't try to change this; OctoWS2811 always assumes 8 */
+
     enum Pattern pattern = patternTest;
 
-    CRGB rgbarray[NUM_STRIPS * NUM_LEDS_PER_STRIP];
+    CRGB rgbarray[NUM_STRIPS * MAX_LEDS_PER_STRIP]; 
 
     bool fPowerOn = true;
     bool fOpenPixelClientConnected = false;
@@ -16,15 +18,16 @@ namespace LED {
     uint32_t tmFrameStart;
     unsigned int cFrames;
     CResizeableOctoWS2811Controller controller;
+    uint16_t cLEDsPerStrip;
 
     void setup() {
 
         tmFrameStart = millis();
         cFrames = 0;
 
-        FastLED.addLeds(&controller, rgbarray, NUM_LEDS_PER_STRIP);
-        // FastLED.addLeds<OCTOWS2811>(rgbarray, NUM_LEDS_PER_STRIP);
-        
+        FastLED.addLeds(&controller, rgbarray, MAX_LEDS_PER_STRIP);
+        cLEDsPerStrip = MAX_LEDS_PER_STRIP;
+
         FastLED.setBrightness(Persist::data.brightness);
 
         pattern = (enum Pattern) Persist::data.pattern;
@@ -57,15 +60,15 @@ namespace LED {
         static uint8_t hue = 0;
 
         for(int i = 0; i < NUM_STRIPS; i++) {
-            for(int j = 0; j < NUM_LEDS_PER_STRIP; j++) {
-            rgbarray[(i*NUM_LEDS_PER_STRIP) + j] = CHSV((32*i) + hue+j,192,255);
+            for(int j = 0; j < cLEDsPerStrip; j++) {
+                rgbarray[(i*cLEDsPerStrip) + j] = CHSV((32*i) + hue+j,192,255);
             }
         }
 
         // Set the first n leds on each strip to show which strip it is
         for(int i = 0; i < NUM_STRIPS; i++) {
             for(int j = 0; j <= i; j++) {
-            rgbarray[(i*NUM_LEDS_PER_STRIP) + j] = CRGB(0x65,0x43,0x21);
+                rgbarray[(i*cLEDsPerStrip) + j] = CRGB(0x65,0x43,0x21);
             }
         }
 
@@ -132,7 +135,10 @@ namespace LED {
         fPowerOn = !fPowerOn;
 
         // TODO this is a hacky way to test resizing the FastLED controller temporarily :/ should NOT be here EVER
-        if (fPowerOn) controller.Only15PixelsBuddy();
+        if (fPowerOn) {
+            controller.ChangeSize( 15 );
+            cLEDsPerStrip = 15;
+        }
 
 
         return fPowerOn;
@@ -145,9 +151,15 @@ namespace LED {
     
     }
 
-    CRGB* getRGBAddress( uint8_t iStrip ) {
+    CRGB* getRGBAddress(uint8_t iStrip, uint32_t nLEDs) {
 
-        return rgbarray + (iStrip * NUM_LEDS_PER_STRIP);
+        if (nLEDs != cLEDsPerStrip)
+        {
+            dbgprintf("OpenPixelControl has data for %d pixels but we only support %d\n", nLEDs, cLEDsPerStrip);
+            controller.ChangeSize( nLEDs );
+            cLEDsPerStrip = nLEDs;
+        }
+        return rgbarray + (iStrip * cLEDsPerStrip);
 
     }
 

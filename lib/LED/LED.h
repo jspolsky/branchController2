@@ -25,7 +25,7 @@ namespace LED {
     void testPattern();
     bool togglePower();
     void openPixelClientConnection(bool f);
-    CRGB* getRGBAddress( uint8_t iStrip );
+    CRGB* getRGBAddress(uint8_t iStrip, uint32_t nLEDs);
     void CalculateFrameRate();
 
 }
