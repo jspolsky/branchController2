@@ -84,7 +84,10 @@ namespace WebServer {
                     client.println("Connection: close");  // the connection will be closed after completion of the response
                     client.println();
                     client.println("<!DOCTYPE HTML>");
-                    client.println("<html>");
+                    client.println("<html>Branch Controller built ");
+                    client.println(__DATE__);
+                    client.println(__TIME__);
+                    client.println("<br>");
                     // output the value of each analog input pin
                     for (int analogChannel = 0; analogChannel < 6; analogChannel++) {
                         int sensorReading = analogRead(analogChannel);
