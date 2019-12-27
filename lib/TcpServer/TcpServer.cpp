@@ -7,16 +7,17 @@
 #include <Persist.h>
 #include <MacAddress.h>
 #include <OpenPixelControl.h>
+#include <WebServer.h>
+
 
 namespace TcpServer {
 
     enum Status { uninitialized, noHardware, noCable, noDHCP, ready };
     Status status = uninitialized;
 
-    // Initialize the Ethernet server library
-    // with the IP address and port you want to use
-    // (port 80 is default for HTTP):
-    EthernetServer server(OPEN_PIXEL_PORT);
+    EthernetServer serverOpenPixelControl(OPEN_PIXEL_PORT); 
+    EthernetServer serverConfig(80);
+
     const char* rgchRetry = "Press AUTO to connect";
 
     void setup() {
@@ -73,7 +74,9 @@ namespace TcpServer {
         dbgprintf("DHCP Net Mash   %d.%d.%d.%d\n", Ethernet.subnetMask()[0], Ethernet.subnetMask()[1], Ethernet.subnetMask()[2], Ethernet.subnetMask()[3] );
         dbgprintf("DHCP Gateway    %d.%d.%d.%d\n", Ethernet.gatewayIP()[0], Ethernet.gatewayIP()[1], Ethernet.gatewayIP()[2], Ethernet.gatewayIP()[3] );
 
-        server.begin();
+        serverOpenPixelControl.begin();
+        serverConfig.begin();
+
         status = ready;
 
         OpenPixelControl::setup();
@@ -86,7 +89,9 @@ namespace TcpServer {
         if (status != ready)
             return;
 
-        OpenPixelControl::loop(server);
+        OpenPixelControl::loop(serverOpenPixelControl);
+        WebServer::loop(serverConfig);
+
         Ethernet.maintain();
 
     }
