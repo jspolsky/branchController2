@@ -15,9 +15,6 @@ namespace TcpServer {
     enum Status { uninitialized, noHardware, noCable, noDHCP, ready };
     Status status = uninitialized;
 
-    EthernetServer serverOpenPixelControl(OPEN_PIXEL_PORT); 
-    EthernetServer serverConfig(80);
-
     const char* rgchRetry = "Press AUTO to connect";
 
     void setup() {
@@ -74,12 +71,9 @@ namespace TcpServer {
         dbgprintf("DHCP Net Mash   %d.%d.%d.%d\n", Ethernet.subnetMask()[0], Ethernet.subnetMask()[1], Ethernet.subnetMask()[2], Ethernet.subnetMask()[3] );
         dbgprintf("DHCP Gateway    %d.%d.%d.%d\n", Ethernet.gatewayIP()[0], Ethernet.gatewayIP()[1], Ethernet.gatewayIP()[2], Ethernet.gatewayIP()[3] );
 
-        serverOpenPixelControl.begin();
-        serverConfig.begin();
-
-        status = ready;
-
         OpenPixelControl::setup();
+        WebServer::setup();
+        status = ready;
 
     }
 
@@ -89,15 +83,14 @@ namespace TcpServer {
         if (status != ready)
             return;
 
-        OpenPixelControl::loop(serverOpenPixelControl);
-        WebServer::loop(serverConfig);
+        OpenPixelControl::loop();
+        WebServer::loop();
 
         Ethernet.maintain();
 
     }
 
-    bool initialized()
-    {
+    bool initialized() {
         return (status == ready);
     }
 

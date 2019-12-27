@@ -10,6 +10,7 @@
 
 namespace WebServer {
 
-    void loop( EthernetServer& server );
+    void setup();
+    void loop();
 
 }

@@ -5,7 +5,23 @@
 
 namespace WebServer {
 
-    void loop( EthernetServer& server ) {
+    enum Status { ready,            // Listening, ready for a client to connect
+                  connected         // A client has connected
+                };
+
+    Status status;
+    EthernetClient client;
+    EthernetServer server(80);
+
+    void setup() 
+    {
+
+        server.begin();
+        status = ready;
+
+    }
+
+    void loop() {
 
         EthernetClient client = server.available();
         if (client) {
@@ -17,7 +33,7 @@ namespace WebServer {
             // the entire request and sends the entire response while the whole
             // system is essentially frozen. But does it matter?
             //
-            
+
             while (client.connected()) {
                 if (client.available()) {
                     char c = client.read();

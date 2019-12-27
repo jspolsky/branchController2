@@ -14,6 +14,7 @@ namespace OpenPixelControl {
 
     Status status;
     EthernetClient client;
+    EthernetServer server(OPEN_PIXEL_PORT); 
 
     //
     // OPC sends each channel separately. However FastLED.show() 
@@ -30,6 +31,7 @@ namespace OpenPixelControl {
 
     void setup() {
 
+        server.begin();
         status = ready;
 
     }
@@ -54,7 +56,7 @@ namespace OpenPixelControl {
     // parse this message -- we're just going to swallow it.
     bool bThrowAwayMessage = false;
 
-    void loop( EthernetServer &server ) {
+    void loop() {
 
         if (status == ready)
         {
