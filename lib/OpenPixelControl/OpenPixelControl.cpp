@@ -4,8 +4,6 @@
 #include <Display.h>
 #include <LED.h>
 
-// TODO - protocol errors should be on Display:: and should hang up the connection
-
 // implements http://openpixelcontrol.org/
 
 namespace OpenPixelControl {
@@ -51,6 +49,10 @@ namespace OpenPixelControl {
     uint8_t channel = 0;
     uint8_t command = 0;
     uint16_t cbMessage = 0;
+
+    // True if the channel, command, or cbMessage makes it impossible to
+    // parse this message -- we're just going to swallow it.
+    bool bThrowAwayMessage = false;
 
     void loop( EthernetServer &server ) {
 
@@ -126,18 +128,35 @@ namespace OpenPixelControl {
 
                 //
                 // Anything wrong with the message?
-                // for now just warn.
-                // TODO: actually eat the bad message
                 //
-                if (command != 0 || cbMessage == 0 || channel < 1 || channel > 8 || cbMessage > (3 * MAX_LEDS_PER_STRIP))
+                bThrowAwayMessage = false;
+
+                char rgchError[CB_DISPLAY_LINE];
+
+                if (command != 0)
                 {
-                    dbgprintf("Suspicious Message - Channel %d - Command %d - Message Size: %d\n", channel, command, cbMessage);
+                    dbgprintf("OpenPixelControl - command %d not supported\n", command);
+                    sprintf(rgchError, "OPC BAD CMD %d", command);
+                    Display::status(3, rgchError);
+                    bThrowAwayMessage = true;
+                }
+                else if (channel < 1 || channel > 8)
+                {
+                    dbgprintf("OpenPixelControl - channel %d not supported\n", channel);
+                    sprintf(rgchError, "OPC BAD CHAN %d", channel);
+                    Display::status(3, rgchError);
+                    channel = 1;
+                    bThrowAwayMessage = true;
+                }
+                else if (cbMessage > (3 * MAX_LEDS_PER_STRIP))
+                {
+                    dbgprintf("OpenPixelControl - too many pixels per strip (%d)\n", cbMessage / 3);
+                    Display::status(3, "OPC TOO MANY PIXELS");
+                    bThrowAwayMessage = true;
                 }
 
                 if (channel >= ixHighestChannelSeen)
                 {
-                    // TODO is this cheesy? Maybe wait until the second time we see channel 1 to start showing
-
                     bNeedToShow = true;
                     ixHighestChannelSeen = channel;
                 }
@@ -175,18 +194,22 @@ namespace OpenPixelControl {
         //      -- the number of bytes available
         //      -- the number of bytes that remain to be read (cbMessage - ixRGB)
 
-        if (channel < 1 || channel > 8)
-        {
-            dbgprintf("I don't get it channel is out of range this is unacceptable\n");
-        }
-
         uint8_t *pstrip = (uint8_t*) LED::getRGBAddress(channel-1, cbMessage / 3);
         size_t cbToRead = min(cbAvail, cbMessage - ixRGB);
         
-        // bounds checkings!
-        if (ixRGB + cbToRead > (3*MAX_LEDS_PER_STRIP))
+        if (bThrowAwayMessage)
         {
-            dbgprintf("Impossible situation - too many bytes\n");
+            while (cbToRead)
+            {
+                (void) client.read();
+                cbToRead--;
+                ixRGB++;
+            }
+
+            if (ixRGB >= cbMessage)
+            {
+                ixHeader = ixRGB = 0;
+            }
             return;
         }
 
@@ -201,21 +224,7 @@ namespace OpenPixelControl {
                 LED::CalculateFrameRate();
                 bNeedToShow = false;
             }
-            ixHeader = 0;
-            ixRGB = 0;
+            ixHeader = ixRGB = 0;
         }
-
-
-
-        // TODO
-        // HERE IS CODE TO CONSUME THE REST OF THE MESSAGE IF IT'S NOT COOL
-
-        /* size_t cbToRead = min(cbAvail, cbMessage);
-        while (cbToRead)
-        {
-            (void) client.read();
-            cbToRead--;
-            cbMessage--;
-        } */
     }
 }

@@ -9,18 +9,18 @@ It is designed for WS2812b-style LED strips, with a single wire protocol. These 
 
 Features:
 
-* Supports up to 4416 pixels (552 per strip) at a frame rate of 60 Hz, the theoretical limit of the protocol
+* Supports up to 4400 pixels (550 per strip) at a frame rate of 60 Hz, the theoretical limit of the protocol
 
 * Ethernet control. Connects to an ethernet network to receive pixel data. This allows you to use many branch controllers controlled from a single PC
 
-* 128x32 OLED display for diagnostics
+* 128x32 OLED display for diagnostics and network configuration
 
 * IR sensor allows you to use an IR remote control for basic controls
 
 Basic Operation
 ---------------
 
-By default branchController assumes you have 8 strips of 552 pixels each. You can operate a single branchController with a 44 button IR remote control like this one:
+By default branchController assumes you have 8 strips of 550 pixels each. You can operate a single branchController with a 44 button IR remote control like this one:
 
 ![44 button IR remote control](doc/44buttonIR.jpg)
 
@@ -55,7 +55,7 @@ Next Up
 
 - [X] Brightness control from remote (plus save and load)
 - [X] Frame rate calculation
-- [ ] Finish OpenPixel Control - polish code
+- [X] Finish OpenPixel Control - polish code
 - [X] How much memory are we using? Try freeMemory()
 - [X] Fix as many compiler warnings as possible
 - [X] See about shortening strand length at runtime (for better frame rates).
@@ -64,4 +64,4 @@ Next Up
 - [ ] Study color correction ... think about a way to configure it
 - [ ] Should we implement power function? (Max amps thing)
 - [ ] Better built-in (DIY1-6) displays maybe
-- [ ] Support remote control Play/Pause button for internet DIY1-6 displays
+- [ ] Support remote control Play/Pause button for internal DIY1-6 displays
