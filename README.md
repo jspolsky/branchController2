@@ -61,7 +61,7 @@ Next Up
 - [X] See about shortening strand length at runtime (for better frame rates).
 - [ ] Internet cable disconnected / reconnected
 - [ ] Investigate temporal dithering. If we have fewer pixels, maybe we have time to do it.
-- [ ] Study color correction ... think about a way to configure it
+- [ ] Mini web server to configure RGB/GRB, color correction
 - [ ] Should we implement power function? (Max amps thing)
 - [ ] Better built-in (DIY1-6) displays maybe
 - [ ] Support remote control Play/Pause button for internal DIY1-6 displays
