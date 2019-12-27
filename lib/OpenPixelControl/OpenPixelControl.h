@@ -17,6 +17,6 @@ namespace OpenPixelControl {
 
     void setup();
     void loop();
-    void read_available( EthernetClient& client );
+    void read_available();
 
 }

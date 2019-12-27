@@ -12,5 +12,7 @@ namespace WebServer {
 
     void setup();
     void loop();
+    void read_available();
+    void process_get(char* szGet);
 
 }

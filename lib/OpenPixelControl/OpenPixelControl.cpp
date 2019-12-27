@@ -90,14 +90,14 @@ namespace OpenPixelControl {
             }
 
             // client is still connected -- read bytes!
-            read_available(client);
+            read_available();
 
         }
 
     }
 
 
-    void read_available( EthernetClient& client ) {
+    void read_available() {
 
         // how many bytes are even available to read?
         size_t cbAvail = client.available();
