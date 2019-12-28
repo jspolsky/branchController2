@@ -14,5 +14,6 @@ namespace WebServer {
     void loop();
     void read_available();
     void process_get(char* szGet);
+    void output_html();
 
 }

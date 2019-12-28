@@ -39,6 +39,28 @@ When branchController starts up, it will look for a DHCP server and try to get a
 
 Every branch controller has a unique MAC address which will never change, so you can configure your DHCP server to always hand out the same IP address to the same branch controller, which makes it easier to sort out multiple branch controllers.
 
+Web-based Hardware Configuration
+--------------------------------
+
+If you don't like the default configuration, you can use any web server to connect to your
+branchController and modify some things:
+
+* the maximum power that LEDs will be allowed to consume (in milliwatts). If the total
+  power budget is exceeded, all LEDs will be dimmed equally.
+* the RGB order in your LED strips (some strips expect RGB, others expect GRB). Use the
+  "red", "green", and "blue" buttons to diagnose incorrect RGB order.
+* the color correction you want applied to all output, as a six digit hex RGB value
+* the color temperature you want applied to all output, as a six digit hex RGB value
+* the overall brightness of the LEDs, on a scale from 0 (off) to 255 (full). This can
+  also be adjusted with an IR remote
+* whether or not you want Gamma Correction applied to improve the colors
+
+See http://fastled.io/docs/3.1/group___color_enums.html for options for color correction and 
+color temperature.
+
+See https://learn.adafruit.com/led-tricks-gamma-correction/the-issue for info on how we apply
+gamma correction.
+
 Open Pixel Control
 ------------------
 

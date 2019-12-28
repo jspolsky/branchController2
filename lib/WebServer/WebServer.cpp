@@ -3,7 +3,7 @@
 #include <Ethernet.h>
 #include <Util.h>
 
-#define BUFFER_SIZE 128
+#define BUFFER_SIZE 64
 
 namespace WebServer {
 
@@ -56,7 +56,7 @@ namespace WebServer {
 
     void read_available() {
 
-        // Here's the plan: read one line at a time - up to 128 bytes, then discard
+        // Here's the plan: read one line at a time - up to 64 bytes, then discard
         // When you see \n, process it
         //      if it starts with GET, record this as the "GET" command
         //      if it starts with \n again, that's the end of the HTTP header - process it
@@ -79,25 +79,8 @@ namespace WebServer {
                 }
                 if (ixRequest == 0)
                 {
-                    client.println("HTTP/1.1 200 OK");
-                    client.println("Content-Type: text/html");
-                    client.println("Connection: close");  // the connection will be closed after completion of the response
-                    client.println();
-                    client.println("<!DOCTYPE HTML>");
-                    client.println("<html>Branch Controller built ");
-                    client.println(__DATE__);
-                    client.println(__TIME__);
-                    client.println("<br>");
-                    // output the value of each analog input pin
-                    for (int analogChannel = 0; analogChannel < 6; analogChannel++) {
-                        int sensorReading = analogRead(analogChannel);
-                        client.print("analog input ");
-                        client.print(analogChannel);
-                        client.print(" is ");
-                        client.print(sensorReading);
-                        client.println("<br />");
-                    }
-                    client.println("</html>");
+                    output_html();
+
                     delay(1);
                     client.stop();
                 }
@@ -119,6 +102,50 @@ namespace WebServer {
     void process_get(char* szGet)
     {
         dbgprintf("GET: [%s]\n", szGet);
+    }
+
+    void output_html()
+    {
+        client.println(
+            "HTTP/1.1 200 OK\r\n"
+            "Content-Type: text/html\r\n"
+            "Connection: close\r\n"
+            "\r\n"
+            "<!DOCTYPE HTML>"
+            "<html>"
+                "<h1>Branch Controller</h1>" 
+                "<p>built " __DATE__ " " __TIME__ "</p>"
+                "<hr>"
+                "<form action=/>"
+                    "Maximum Power: "
+                    "<input name=w value='1000'> milliwatts"
+                    "<br>"
+                    "RGB/GRB Order: "
+                    "<select name=o>"
+                        "<option value=r>RGB</option>"
+                        "<option value=g selected>GRB</option>"
+                    "</select>"
+                    "<br>"
+                    "Color Correction: "
+                    "<input name=c value='FF00AA'> (hex RGB)"
+                    "<br>"
+                    "Color Temperature: "
+                    "<input name=t value='00FFDD'> (hex RGB)"
+                    "<br>"
+                    "Brightness: "
+                    "<input name=b value='255'> (0-255)"
+                    "<br>"
+                    "<input type=checkbox id=g name=g value=1 checked><label for=g>Gamma Correction</label>"
+                    "<br>"
+                    "<input type=submit>"
+                    "<br>"
+                    "Test colors: "
+                    "<a href=/r>Red</a> "
+                    "<a href=/g>Green</a> "
+                    "<a href=/b>Blue</a> "
+                    "<a href=/w>White</a> "
+                "</form>"
+            "</html>");
     }
 }
 
