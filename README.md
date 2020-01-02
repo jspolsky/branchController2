@@ -71,6 +71,10 @@ About the project
 
 This code was built using PlatformIO, an open source platform for embedded development which is a zillion times better than using the Arduino IDE. You will still need Teensyduino to flash the Teensy. For more about the research behind this project, follow my blog, [BlinkyLights](https://blinkylights.blog/).
 
+Are you making one?
+-------------------
+Here's [a BOM]([https://octopart.com/bom-tool/tv6ZDeDl]) with all the parts you need 
+
 
 Next Up
 -------
