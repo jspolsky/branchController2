@@ -27,6 +27,12 @@ namespace Persist {
         uint8_t     pattern;        // whether we are in solid color mode (0) or test pattern (1) -- maps to enum Pattern in LED.cpp
         uint8_t     brightness;     // global brightness for fastled
 
+        uint32_t    max_power;      // in milliwatts
+        char        first_color;    // 'r' or 'g' will work
+        uint32_t    color_correction;
+        uint32_t    color_temperature;
+        bool        gamma_correction;
+
     };
 
     extern persistence_t data;

@@ -1,7 +1,10 @@
 #include <Arduino.h>
 #include <WebServer.h>
 #include <Ethernet.h>
+#include <Persist.h>
 #include <Util.h>
+
+char *strsep(char **stringp, const char *delim);
 
 #define BUFFER_SIZE 64
 
@@ -102,6 +105,38 @@ namespace WebServer {
     void process_get(char* szGet)
     {
         dbgprintf("GET: [%s]\n", szGet);
+
+        if (!strcmp("/", szGet))
+            return;
+
+        char *pszTok = NULL;
+        while (NULL != (pszTok = strsep(&szGet,"/?&")))
+        {
+            if (*pszTok)
+            {
+                if (!strncmp(pszTok, "w=", 2)) {
+                    Persist::data.max_power = atoi(pszTok + 2);
+                    FastLED.setMaxPowerInMilliWatts(Persist::data.max_power);  // TODO load this at startup
+                }
+                else if (!strncmp(pszTok, "o=", 2))
+                    Persist::data.first_color = pszTok[2];
+                else if (!strncmp(pszTok, "c=", 2))
+                    Persist::data.color_correction = strtol(pszTok + 2, NULL, 16);
+                else if (!strncmp(pszTok, "t=", 2))
+                    Persist::data.color_temperature = strtol(pszTok + 2, NULL, 16);
+                else if (!strncmp(pszTok, "b=", 2)) {
+                    Persist::data.brightness = min(255, atoi(pszTok + 2));
+                    LEDS.setBrightness(Persist::data.brightness);
+                    Persist::data.gamma_correction = false; // because g= will be missing if gamma correction is unchecked
+                }
+                else if (!strncmp(pszTok, "g=", 2))
+                    Persist::data.gamma_correction = (pszTok[2] == '1');
+                else
+                    dbgprintf("unidentified token: {%s}\n", pszTok);
+            }
+        }
+
+        Persist::write();
     }
 
     void output_html()
@@ -118,22 +153,46 @@ namespace WebServer {
                 "<hr>"
                 "<form action=/>"
                     "Maximum Power: "
-                    "<input name=w value='1000'> milliwatts"
+                    "<input name=w value='"
+
+                        ); client.println(Persist::data.max_power); client.println(
+                    
+                    "'> milliwatts"
                     "<br>"
                     "RGB/GRB Order: "
                     "<select name=o>"
-                        "<option value=r>RGB</option>"
-                        "<option value=g selected>GRB</option>"
+                        "<option value=r"
+                        
+                            ); if (Persist::data.first_color == 'r') client.println(" selected"); client.println(
+
+                        ">RGB</option>"
+                        "<option value=g"
+                        
+                            ); if (Persist::data.first_color == 'g') client.println(" selected"); client.println(
+
+                        ">GRB</option>"
                     "</select>"
                     "<br>"
                     "Color Correction: "
-                    "<input name=c value='FF00AA'> (hex RGB)"
+                    "<input name=c value="
+                    
+                            ); client.println(Persist::data.color_correction, 16); client.println(
+
+                    "> (hex RGB)"
                     "<br>"
                     "Color Temperature: "
-                    "<input name=t value='00FFDD'> (hex RGB)"
+                    "<input name=t value="
+                    
+                            ); client.println(Persist::data.color_temperature, 16); client.println(
+                    
+                    "> (hex RGB)"
                     "<br>"
                     "Brightness: "
-                    "<input name=b value='255'> (0-255)"
+                    "<input name=b value="
+                    
+                            ); client.println(Persist::data.brightness); client.println(
+                    
+                    "> (0-255)"
                     "<br>"
                     "<input type=checkbox id=g name=g value=1 checked><label for=g>Gamma Correction</label>"
                     "<br>"

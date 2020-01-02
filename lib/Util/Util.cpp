@@ -54,7 +54,8 @@ void dbgprintf(char const* pszFmt UNUSED_IN_RELEASE, ... ) {
                         Serial.print(va_arg(argv, int));    
                         break;
 
-                    case 'x':   
+                    case 'x': 
+                    case 'X':  
                         Serial.print(va_arg(argv, int), HEX);    
                         break;
 

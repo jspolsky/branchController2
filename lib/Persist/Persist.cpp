@@ -15,6 +15,11 @@ namespace Persist {
         data.rgbSolidColor = CRGB::Black;
         data.pattern = (uint8_t) 1; // LED::patternTest
         data.brightness = BRIGHTNESS;
+        data.max_power = 10000; // mw
+        data.first_color = 'r';
+        data.color_correction = LEDColorCorrection::UncorrectedColor;
+        data.color_temperature = ColorTemperature::UncorrectedTemperature;
+        data.gamma_correction = false;
         
         dbgprintf("Initializing Persisted Data\n");
 
@@ -47,13 +52,20 @@ namespace Persist {
             dbgprintf("Signature not found - not reading from EEPROM\n");
         }
 
-        dbgprintf("cb: %d color: %x,%x,%x pattern: %d brightness: %d\n",
+        dbgprintf("cb: %d color: %x,%x,%x pattern: %d brightness: %d\n"
+                  "       max_power: %d first_color: %c color correction: %x\n"
+                  "       color temperature: %x gamma correction: %d\n",
             data.cb,
             data.rgbSolidColor.r,
             data.rgbSolidColor.g,
             data.rgbSolidColor.b,
             data.pattern,
-            data.brightness        
+            data.brightness,
+            data.max_power,
+            data.first_color,
+            data.color_correction,
+            data.color_temperature,
+            data.gamma_correction
         );
 
     }
