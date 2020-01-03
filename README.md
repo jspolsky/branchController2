@@ -73,7 +73,7 @@ This code was built using PlatformIO, an open source platform for embedded devel
 
 Are you making one?
 -------------------
-Here's [a BOM]([https://octopart.com/bom-tool/tv6ZDeDl]) with all the parts you need 
+Here's [a BOM](https://octopart.com/bom-tool/tv6ZDeDl) with all the parts you need 
 
 
 Next Up
