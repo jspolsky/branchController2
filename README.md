@@ -85,9 +85,9 @@ Next Up
 - [X] How much memory are we using? Try freeMemory()
 - [X] Fix as many compiler warnings as possible
 - [X] See about shortening strand length at runtime (for better frame rates).
-- [ ] Mini web server to configure RGB/GRB, color correction
+- [X] Mini web server to configure RGB/GRB, color correction
 - [ ] Internet cable disconnected / reconnected
 - [ ] Investigate temporal dithering. If we have fewer pixels, maybe we have time to do it.
-- [ ] Should we implement power function? (Max amps thing)
+- [X] Implement power limiting function (Max watts)
 - [ ] Better built-in (DIY1-6) displays maybe
 - [ ] Support remote control Play/Pause button for internal DIY1-6 displays
