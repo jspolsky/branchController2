@@ -80,7 +80,6 @@ Next Up
 -------
 
 - [ ] Optimize frame rate
-- [ ] Show IP address double size once DHCP is connected. Don't show MAC address after successful connection
 - [ ] Internet cable disconnected / reconnected
 - [ ] Investigate temporal dithering. If we have fewer pixels, maybe we have time to do it.
 - [X] Implement power limiting function (Max watts)
