@@ -79,15 +79,11 @@ Here's [a BOM](https://octopart.com/bom-tool/tv6ZDeDl) with all the parts you ne
 Next Up
 -------
 
-- [X] Brightness control from remote (plus save and load)
-- [X] Frame rate calculation
-- [X] Finish OpenPixel Control - polish code
-- [X] How much memory are we using? Try freeMemory()
-- [X] Fix as many compiler warnings as possible
-- [X] See about shortening strand length at runtime (for better frame rates).
-- [X] Mini web server to configure RGB/GRB, color correction
+- [ ] Optimize frame rate
+- [ ] Show IP address double size once DHCP is connected. Don't show MAC address after successful connection
 - [ ] Internet cable disconnected / reconnected
 - [ ] Investigate temporal dithering. If we have fewer pixels, maybe we have time to do it.
 - [X] Implement power limiting function (Max watts)
+- [ ] Improve power limiting feature by show stats on display for diagnosis
 - [ ] Better built-in (DIY1-6) displays maybe
 - [ ] Support remote control Play/Pause button for internal DIY1-6 displays
