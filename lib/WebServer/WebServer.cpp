@@ -2,6 +2,7 @@
 #include <WebServer.h>
 #include <Ethernet.h>
 #include <Persist.h>
+#include <LED.h>
 #include <Util.h>
 
 char *strsep(char **stringp, const char *delim);
@@ -114,10 +115,28 @@ namespace WebServer {
         {
             if (*pszTok)
             {
-                if (!strncmp(pszTok, "w=", 2)) {
-                    Persist::data.max_power = atoi(pszTok + 2);
-                    FastLED.setMaxPowerInMilliWatts(Persist::data.max_power);  // TODO load this at startup
+                if (!strcmp(pszTok, "r"))
+                {
+                    LED::setSolidColor(CRGB::Red);
+                    return;
                 }
+                else if (!strcmp(pszTok, "g"))
+                {
+                    LED::setSolidColor(CRGB::Green);
+                    return;
+                }
+                else if (!strcmp(pszTok, "b"))
+                {
+                    LED::setSolidColor(CRGB::Blue);
+                    return;
+                }
+                else if (!strcmp(pszTok, "w"))
+                {
+                    LED::setSolidColor(CRGB::White);
+                    return;
+                }
+                else if (!strncmp(pszTok, "w=", 2))
+                    Persist::data.max_power = atoi(pszTok + 2);
                 else if (!strncmp(pszTok, "o=", 2))
                     Persist::data.first_color = pszTok[2];
                 else if (!strncmp(pszTok, "c=", 2))
@@ -137,6 +156,8 @@ namespace WebServer {
         }
 
         Persist::write();
+        LED::load_persistant_data();
+
     }
 
     void output_html()
@@ -194,7 +215,7 @@ namespace WebServer {
                     
                     "> (0-255)"
                     "<br>"
-                    "<input type=checkbox id=g name=g value=1 checked><label for=g>Gamma Correction</label>"
+                    "<input type=checkbox id=g name=g value=1 checked><label for=g>Gamma Correction (Not implemented)</label>"
                     "<br>"
                     "<input type=submit>"
                     "<br>"

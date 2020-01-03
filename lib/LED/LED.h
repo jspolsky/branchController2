@@ -17,6 +17,7 @@ namespace LED {
     enum Pattern { patternSolid = 0, patternTest  };    // more  patterns can be added here
 
     void setup();
+    void load_persistant_data();
     void loop();
 
     void setSolidColor(CRGB rgb);

@@ -15,9 +15,9 @@ namespace Persist {
         data.rgbSolidColor = CRGB::Black;
         data.pattern = (uint8_t) 1; // LED::patternTest
         data.brightness = BRIGHTNESS;
-        data.max_power = 10000; // mw
+        data.max_power = 1000000; // mw
         data.first_color = 'r';
-        data.color_correction = LEDColorCorrection::UncorrectedColor;
+        data.color_correction = LEDColorCorrection::TypicalLEDStrip;
         data.color_temperature = ColorTemperature::UncorrectedTemperature;
         data.gamma_correction = false;
         

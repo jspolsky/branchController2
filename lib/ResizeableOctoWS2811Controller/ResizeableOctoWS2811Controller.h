@@ -55,30 +55,68 @@ public:
 
         uint8_t *pData = drawbuffer;
 
-        while (pixels.has(1))
+        //
+        // The only difference between RGB and GRB color mode
+        // is whether we call loadAndScale1 first or loadAndScale0 first.
+        //
+        // For performance reasons, do not "optimize" this code by moving the if
+        // statement into the loop!
+        //
+        if (config & WS2811_GRB)
         {
-            Lines b;
+            while (pixels.has(1))
+            {
+                Lines b;
 
-            for (int i = 0; i < 8; i++)
-            {
-                b.bytes[i] = pixels.loadAndScale0(i);
+                for (int i = 0; i < 8; i++)
+                {
+                    b.bytes[i] = pixels.loadAndScale1(i);
+                }
+                transpose8x1_MSB(b.bytes, pData);
+                pData += 8;
+                for (int i = 0; i < 8; i++)
+                {
+                    b.bytes[i] = pixels.loadAndScale0(i);
+                }
+                transpose8x1_MSB(b.bytes, pData);
+                pData += 8;
+                for (int i = 0; i < 8; i++)
+                {
+                    b.bytes[i] = pixels.loadAndScale2(i);
+                }
+                transpose8x1_MSB(b.bytes, pData);
+                pData += 8;
+                pixels.stepDithering();
+                pixels.advanceData();
             }
-            transpose8x1_MSB(b.bytes, pData);
-            pData += 8;
-            for (int i = 0; i < 8; i++)
+        }
+        else
+        {
+            while (pixels.has(1))
             {
-                b.bytes[i] = pixels.loadAndScale1(i);
+                Lines b;
+
+                for (int i = 0; i < 8; i++)
+                {
+                    b.bytes[i] = pixels.loadAndScale0(i);
+                }
+                transpose8x1_MSB(b.bytes, pData);
+                pData += 8;
+                for (int i = 0; i < 8; i++)
+                {
+                    b.bytes[i] = pixels.loadAndScale1(i);
+                }
+                transpose8x1_MSB(b.bytes, pData);
+                pData += 8;
+                for (int i = 0; i < 8; i++)
+                {
+                    b.bytes[i] = pixels.loadAndScale2(i);
+                }
+                transpose8x1_MSB(b.bytes, pData);
+                pData += 8;
+                pixels.stepDithering();
+                pixels.advanceData();
             }
-            transpose8x1_MSB(b.bytes, pData);
-            pData += 8;
-            for (int i = 0; i < 8; i++)
-            {
-                b.bytes[i] = pixels.loadAndScale2(i);
-            }
-            transpose8x1_MSB(b.bytes, pData);
-            pData += 8;
-            pixels.stepDithering();
-            pixels.advanceData();
         }
 
         pocto->show();
@@ -86,7 +124,7 @@ public:
     }
 
     // change the actual size of strips, at runtime!
-    void ChangeSize( uint16_t nPixels )
+    void ChangeSize(uint16_t nPixels)
     {
         if (!pocto)
             return;
@@ -100,5 +138,16 @@ public:
         pocto->begin();
 
         dbgprintf("Now supporting %d pixels per strip\n", nPixels);
+    }
+
+    // change the RGB/GRB order of the strips, at runtime!
+    void ChangeColorOrder(char first_color) {
+
+        config = WS2811_800kHz;
+        if (first_color == 'r')
+            config |= WS2811_RGB;
+        else if (first_color == 'g')
+            config |= WS2811_GRB;
+
     }
 };

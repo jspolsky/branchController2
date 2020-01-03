@@ -25,13 +25,23 @@ namespace LED {
         tmFrameStart = millis();
         cFrames = 0;
 
+        FastLED.setBrightness(0);
         FastLED.addLeds(&controller, rgbarray, MAX_LEDS_PER_STRIP);
         cLEDsPerStrip = MAX_LEDS_PER_STRIP;
 
-        FastLED.setBrightness(Persist::data.brightness);
+        load_persistant_data();
+    }
 
+    void load_persistant_data() {
+
+        FastLED.setMaxPowerInMilliWatts(Persist::data.max_power);
+        FastLED.setBrightness(Persist::data.brightness);
+        FastLED.setCorrection(Persist::data.color_correction);
+        FastLED.setTemperature(Persist::data.color_temperature);
         pattern = (enum Pattern) Persist::data.pattern;
         rgbSolidColor = Persist::data.rgbSolidColor;
+        dbgprintf("Color order is %c\n", Persist::data.first_color);
+        controller.ChangeColorOrder(Persist::data.first_color);
 
     }
 
