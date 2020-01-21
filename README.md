@@ -79,10 +79,16 @@ Here's [a BOM](https://octopart.com/bom-tool/tv6ZDeDl) with all the parts you ne
 Next Up
 -------
 
-- [ ] Optimize frame rate
+- [ ] Why is LED Lab crashing/disconnecting? 
+        - [ ] Do we have the latest code anyway
+        - [ ] May need to write my own client to diagnose
+- [ ] "Count Pixels" mode
+- [ ] Faster brightness adjust
 - [ ] Internet cable disconnected / reconnected
 - [ ] Investigate temporal dithering. If we have fewer pixels, maybe we have time to do it.
 - [X] Implement power limiting function (Max watts)
 - [ ] Improve power limiting feature by show stats on display for diagnosis
 - [ ] Better built-in (DIY1-6) displays maybe
 - [ ] Support remote control Play/Pause button for internal DIY1-6 displays
+- [ ] Either implement gamma correction or stop pretending
+- [ ] TouchDesigner support

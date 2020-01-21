@@ -18,6 +18,7 @@ namespace Heartbeat {
         double rad = tm * PI * 2 / HEARTBEAT_PERIOD_MS;
         double brightness = (sin(rad) + 1.0) * 128.0;
         if (cos(rad) > 0) brightness = 255.0 - brightness;
+        // TODO: isn't this supposed to be 0..1023?
 
         // turn the LED on (HIGH is the voltage level)
         analogWrite(pinHeartbeat, int(brightness));
