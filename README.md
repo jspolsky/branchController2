@@ -80,10 +80,9 @@ Next Up
 -------
 
 - [ ] "Count Pixels" mode
-- [ ] Faster brightness adjust
+- [X] Faster brightness adjust
 - [ ] Investigate temporal dithering - it's not really happening. 
 - [ ] Internet cable disconnected / reconnected
-- [X] Implement power limiting function (Max watts)
 - [ ] Improve power limiting feature by show stats on display for diagnosis
 - [ ] Better built-in (DIY1-6) displays maybe
 - [ ] Support remote control Play/Pause button for internal DIY1-6 displays

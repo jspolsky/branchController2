@@ -116,9 +116,19 @@ namespace LED {
     }
 
     uint8_t brighter() {
-        uint8_t b = FastLED.getBrightness();
-        if (b < 255)
-            b++;
+        uint16_t b = FastLED.getBrightness();
+
+        if (b <= 255)
+        {
+            if (b > 128) b += 32;
+            else if (b > 64) b += 16;
+            else if (b > 32) b += 8;
+            else if (b > 16) b += 4;
+            else if (b > 8) b += 2;
+            else b++;
+        } 
+        if (b > 255) b = 255;
+
         FastLED.setBrightness(b);
         Persist::data.brightness = b;
         return b;
@@ -127,7 +137,15 @@ namespace LED {
     uint8_t dimmer() {
         uint8_t b = FastLED.getBrightness();
         if (b > 1)
-            b--;
+        {
+            if (b <= 8) b--;
+            else if (b <= 16) b -= 2;
+            else if (b <= 32) b -= 4;
+            else if (b <= 64) b -= 8;
+            else if (b <= 128) b -= 16;
+            else b -= 32;
+        }
+
         FastLED.setBrightness(b);
         Persist::data.brightness = b;
         return b;
