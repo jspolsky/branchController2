@@ -1,11 +1,15 @@
 branchController
 ================
 
-Teensy 3.2 branch controller for up to 8 separate LED strips, based on instructions received over TCP-IP.
+The Branch Controller is a small hardware board based on the [Teensy 3.2 development board](https://www.pjrc.com/store/teensy32.html) to allow it to control up to 8 separate pixel-addressible LED strips.
 
-This is code that runs on the [Teensy 3.2 development board](https://www.pjrc.com/store/teensy32.html) to allow it to control up to 8 separate LED strips.
+Although it can be used standalone to send its own patterns to the light strips, it really shines when connected, over ethernet, to a network. That allows you to generate the patterns on a computer (say, with a high powered graphics card) and send them to one or more Branch Controllers. In particular you can drive a lot more LEDs than any single controller can drive by using multiple Branch Controllers.
 
-It is designed for WS2812b-style LED strips, with a single wire protocol. These are what Adafruit calls "NeoPixels". Personally I like to use the WS2815 variant which runs on 12 volts and has a backup wire allowing any single pixel to fail. It does *not* handle APA102c-type strips, which use a two wire protocol consisting of both the signal and a clock.
+![Branch Controller](doc/BranchController.jpg)
+
+It is designed for WS2812b-style LED strips, with a single wire protocol. These are what Adafruit calls "NeoPixels".
+
+Personally I like to use the WS2815 variant which runs on 12 volts and has a backup wire allowing any single pixel to fail. It does *not* handle APA102c-type strips, which use a two wire protocol consisting of both the signal and a clock.
 
 Features:
 
@@ -30,6 +34,8 @@ Use the On/Off button on the remote to turn off the LEDs. When you press OFF, an
 
 The DIY1-6 buttons are reserved for internal test patterns and chases. You can edit the code for these to provide something that is a good backup if your PC or network fails.
 
+DIY1 shows a test pattern where the first pixel is brown on the first strip, the first two pixels are brown on the second strip, etc. This is useful for making sure you have the 8 strips hooked up in the right order.
+
 Network Operation
 -----------------
 
@@ -42,24 +48,20 @@ Every branch controller has a unique MAC address which will never change, so you
 Web-based Hardware Configuration
 --------------------------------
 
-If you don't like the default configuration, you can use any web server to connect to your
+If you don't like the default configuration, you can use a web browser to connect to your
 branchController and modify some things:
 
-* the maximum power that LEDs will be allowed to consume (in milliwatts). If the total
-  power budget is exceeded, all LEDs will be dimmed equally.
-* the RGB order in your LED strips (some strips expect RGB, others expect GRB). Use the
-  "red", "green", and "blue" buttons to diagnose incorrect RGB order.
+* the maximum power that LEDs will be allowed to consume (in milliwatts). If the total power budget is exceeded, all LEDs will be dimmed equally.
+* the RGB order in your LED strips (some strips expect RGB, others expect GRB). Use the "red", "green", and "blue" buttons to diagnose incorrect RGB order.
 * the color correction you want applied to all output, as a six digit hex RGB value
 * the color temperature you want applied to all output, as a six digit hex RGB value
 * the overall brightness of the LEDs, on a scale from 0 (off) to 255 (full). This can
   also be adjusted with an IR remote
-* whether or not you want Gamma Correction applied to improve the colors
+
 
 See http://fastled.io/docs/3.1/group___color_enums.html for options for color correction and 
 color temperature.
 
-See https://learn.adafruit.com/led-tricks-gamma-correction/the-issue for info on how we apply
-gamma correction.
 
 Open Pixel Control
 ------------------
@@ -71,20 +73,26 @@ About the project
 
 This code was built using PlatformIO, an open source platform for embedded development which is a zillion times better than using the Arduino IDE. You will still need Teensyduino to flash the Teensy. For more about the research behind this project, follow my blog, [BlinkyLights](https://blinkylights.blog/).
 
-Are you making one?
+Want to build one?
 -------------------
-Here's [a BOM](https://octopart.com/bom-tool/tv6ZDeDl) with all the parts you need 
+* The gerber directory has gerber and drill files so you can order PCBs.
+* This [BOM](https://octopart.com/bom-tool/tv6ZDeDl) lists the parts you need.
+* The PCB is designed to be mounted in a Polycase SK-16-03 if you want a weatherproof enclosure
 
 
 Next Up
 -------
 
 - [ ] "Count Pixels" mode
+- [ ] Improve power limiting feature by showing stats on display for diagnosis
+- [ ] Static IP address
+- [ ] Multicast DNS (mDNS) and service discovery (DNS-SD)
+      try https://github.com/TrippyLighting/EthernetBonjour
 - [X] Faster brightness adjust
 - [ ] Investigate temporal dithering - it's not really happening. 
 - [ ] Internet cable disconnected / reconnected
-- [ ] Improve power limiting feature by show stats on display for diagnosis
 - [ ] Better built-in (DIY1-6) displays maybe
 - [ ] Support remote control Play/Pause button for internal DIY1-6 displays
 - [ ] Either implement gamma correction or stop pretending
 - [ ] TouchDesigner support
+- [ ] DMX/ArtNet bridge mode
