@@ -84,6 +84,7 @@ Next Up
 -------
 
 - [ ] "Count Pixels" mode
+- [ ] UDP support for Open Pixel Control
 - [ ] Improve power limiting feature by showing stats on display for diagnosis
 - [ ] Static IP address
 - [ ] Multicast DNS (mDNS) and service discovery (DNS-SD)
