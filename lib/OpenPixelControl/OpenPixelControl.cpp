@@ -67,7 +67,7 @@ namespace OpenPixelControl {
 
                 dbgprintf("Client connected\n");
                 Display::status(3, "OpenPixel Connected");
-                LED::openPixelClientConnection(true);
+                LED::openPixelMessageReceived();
                 status = connected;
                 ixHighestChannelSeen = 0;
                 ixHeader = 0;
@@ -84,7 +84,6 @@ namespace OpenPixelControl {
                 client.stop();
                 dbgprintf("client disconnected\n");
                 Display::status(3, "");
-                LED::openPixelClientConnection(false);
                 status = ready;
                 return;
             }

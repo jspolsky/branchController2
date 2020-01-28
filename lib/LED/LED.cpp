@@ -13,7 +13,7 @@ namespace LED {
     CRGB rgbarray[NUM_STRIPS * MAX_LEDS_PER_STRIP]; 
 
     bool fPowerOn = true;
-    bool fOpenPixelClientConnected = false;
+    uint32_t tmOpenPixelMessageReceived;
     CRGB rgbSolidColor;
     uint32_t tmFrameStart;
     unsigned int cFrames;
@@ -23,6 +23,7 @@ namespace LED {
     void setup() {
 
         tmFrameStart = millis();
+        tmOpenPixelMessageReceived = 0;
         cFrames = 0;
 
         FastLED.setBrightness(0);
@@ -53,7 +54,7 @@ namespace LED {
             return;
         }
 
-        if (fOpenPixelClientConnected)
+        if (tmOpenPixelMessageReceived + 5000L > millis())
         {
             // let the protocol drive the LEDs
             return;
@@ -165,9 +166,9 @@ namespace LED {
 
     }
 
-    void openPixelClientConnection(bool f) {
+    void openPixelMessageReceived() {
 
-        fOpenPixelClientConnected = f;
+        tmOpenPixelMessageReceived = millis();
     
     }
 
