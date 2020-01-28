@@ -57,8 +57,6 @@ namespace OpenPixelControl {
         {
             LED::openPixelMessageReceived();
 
-            // Display::status(3, "OpenPixel Connected");  TODO: FASTER WAY TO DO THIS
-            
             ixHighestChannelSeen = 0;
             ixHeader = 0;
             ixRGB = 0;
