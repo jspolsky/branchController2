@@ -86,15 +86,11 @@ Next Up
 -------
 
 - [ ] "Count Pixels" mode
-- [ ] UDP support for Open Pixel Control
-        NOTE - this works now (in udp branch). Before I merge it in I need to decide 
-        whether to continue to support TCP for > 480 pixels, or just change this project
-        to be 480 pixels max.
+- [X] UDP support for Open Pixel Control
 - [ ] Improve power limiting feature by showing stats on display for diagnosis
 - [ ] Static IP address
 - [ ] Multicast DNS (mDNS) and service discovery (DNS-SD)
       try https://github.com/TrippyLighting/EthernetBonjour
-- [X] Faster brightness adjust
 - [ ] Investigate temporal dithering - it's not really happening. 
 - [ ] Internet cable disconnected / reconnected
 - [ ] Better built-in (DIY1-6) displays maybe
