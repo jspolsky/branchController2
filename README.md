@@ -93,8 +93,8 @@ Next Up
       try https://github.com/TrippyLighting/EthernetBonjour
 - [ ] Investigate temporal dithering - it's not really happening. 
 - [ ] Internet cable disconnected / reconnected
+- [ ] Missing OLED? don't stall every second displaying framerate
 - [ ] Better built-in (DIY1-6) displays maybe
 - [ ] Support remote control Play/Pause button for internal DIY1-6 displays
-- [ ] Either implement gamma correction or stop pretending
-- [ ] TouchDesigner support
+- [ ] TouchDesigner support?
 - [ ] DMX/ArtNet bridge mode
