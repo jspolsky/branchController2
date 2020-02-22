@@ -22,6 +22,17 @@ namespace Display {
 
         fDisplayOK = fOn = false;
 
+        dbgprintf("Looking for OLED\n");
+        // is there an OLED connected? 
+        Wire.begin();
+        Wire.beginTransmission(SCREEN_I2C_ADDR);
+        if (Wire.endTransmission())
+        {
+            dbgprintf("No OLED\n");
+            return;
+        }
+        dbgprintf("OLED found\n");
+
         // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
         if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_I2C_ADDR)) {
             dbgprintf("SSD1306 allocation failed\n");
@@ -51,6 +62,8 @@ namespace Display {
 
     void write_lines()
     {
+        if (!fDisplayOK) return;
+
         display.clearDisplay();
         if (fOn) 
         {
