@@ -17,7 +17,7 @@ Features:
 
 * Ethernet control. Connects to an ethernet network to receive pixel data. This allows you to use many branch controllers controlled from a single PC
 
-* Optional 128x32 OLED display for diagnostics and network configuration
+* 128x32 OLED display for diagnostics and network configuration
 
 * IR sensor allows you to use an IR remote control for basic controls
 
@@ -39,7 +39,7 @@ DIY1 shows a test pattern where the first pixel is brown on the first strip, the
 Network Operation
 -----------------
 
-You can connect your branchController to a LAN using the built-in ethernet port and control it from any kind of computer over IP.
+You can connect your branchController to a LAN using the built-in ethernet port and control it from any kind of computer that speaks TCP/IP.
 
 When branchController starts up, it will look for a DHCP server and try to get an IP address and network configuration. If that works it will show you the IP address on the screen.
 
@@ -58,6 +58,7 @@ branchController and modify some things:
 * the overall brightness of the LEDs, on a scale from 0 (off) to 255 (full). This can
   also be adjusted with an IR remote
 
+
 See http://fastled.io/docs/3.1/group___color_enums.html for options for color correction and 
 color temperature.
 
@@ -65,9 +66,7 @@ color temperature.
 Open Pixel Control
 ------------------
 
-If branchController successfully gets on the Internet, it will listen for UDP messages on port 7890, where it will receive data sent to it using the Open Pixel Control format, documented [here](http://openpixelcontrol.org/). You can use Christopher Schardt's app [L.E.D. Lab](https://apps.apple.com/us/app/l-e-d-lab/id832042156) for iPhone or iPad to send cool animations. LED Lab supports Open Pixel Control natively.
-
-**LIMITATION** Due to the maximum size of Ethernet packets around 1500, the Open Pixel Control only allows you to have up to 480 pixels per strip.
+If branchController successfully gets on the Internet, it will listen for TCP connections on port 7890, where it will receive data sent to it using the Open Pixel Control format, documented [here](http://openpixelcontrol.org/). You can use Christopher Schardt's app [L.E.D. Lab](https://apps.apple.com/us/app/l-e-d-lab/id832042156) for iPhone or iPad to send cool animations -- all you need to do is set up the controller as if it were a FadeCandy controller.
 
 About the project
 -----------------
@@ -77,7 +76,6 @@ This code was built using PlatformIO, an open source platform for embedded devel
 Want to build one?
 -------------------
 * The gerber directory has gerber and drill files so you can order PCBs.
-* I might have a few extra PCBs if you want one or two for a noncommercial project (joel@spolsky.com).
 * This [BOM](https://octopart.com/bom-tool/tv6ZDeDl) lists the parts you need.
 * The PCB is designed to be mounted in a Polycase SK-16-03 if you want a weatherproof enclosure
 
@@ -86,14 +84,16 @@ Next Up
 -------
 
 - [ ] "Count Pixels" mode
+- [ ] UDP support for Open Pixel Control
 - [ ] Improve power limiting feature by showing stats on display for diagnosis
 - [ ] Static IP address
 - [ ] Multicast DNS (mDNS) and service discovery (DNS-SD)
       try https://github.com/TrippyLighting/EthernetBonjour
+- [X] Faster brightness adjust
 - [ ] Investigate temporal dithering - it's not really happening. 
 - [ ] Internet cable disconnected / reconnected
-- [ ] Missing OLED? don't stall every second displaying framerate
 - [ ] Better built-in (DIY1-6) displays maybe
 - [ ] Support remote control Play/Pause button for internal DIY1-6 displays
-- [ ] TouchDesigner support?
+- [ ] Either implement gamma correction or stop pretending
+- [ ] TouchDesigner support
 - [ ] DMX/ArtNet bridge mode

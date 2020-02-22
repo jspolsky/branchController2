@@ -13,8 +13,7 @@ namespace LED {
     CRGB rgbarray[NUM_STRIPS * MAX_LEDS_PER_STRIP]; 
 
     bool fPowerOn = true;
-    uint32_t tmOpenPixelMessageReceived;
-    bool fOpenPixelMode;            // Open Pixel message received recently (within 5 sec)
+    bool fOpenPixelClientConnected = false;
     CRGB rgbSolidColor;
     uint32_t tmFrameStart;
     unsigned int cFrames;
@@ -24,8 +23,6 @@ namespace LED {
     void setup() {
 
         tmFrameStart = millis();
-        tmOpenPixelMessageReceived = 0;
-        fOpenPixelMode = false;
         cFrames = 0;
 
         FastLED.setBrightness(0);
@@ -56,20 +53,11 @@ namespace LED {
             return;
         }
 
-        if (fOpenPixelMode)
+        if (fOpenPixelClientConnected)
         {
-            if (tmOpenPixelMessageReceived + 5000L > millis())
-            {
-                // let the protocol drive the LEDs
-                return;
-            }
-            else
-            {
-                fOpenPixelMode = false;
-                Display::status(3, "No OpenPixel Data");
-            }
+            // let the protocol drive the LEDs
+            return;
         }
-
         
         if (pattern == patternSolid)
         {
@@ -177,14 +165,10 @@ namespace LED {
 
     }
 
-    void openPixelMessageReceived() {
+    void openPixelClientConnection(bool f) {
 
-        tmOpenPixelMessageReceived = millis();
-        if (!fOpenPixelMode)
-        {
-            fOpenPixelMode = true;
-            Display::status(3, "OpenPixel Connection");
-        }
+        fOpenPixelClientConnected = f;
+    
     }
 
     CRGB* getRGBAddress(uint8_t iStrip, uint32_t nLEDs) {

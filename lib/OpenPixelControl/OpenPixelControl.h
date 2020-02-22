@@ -1,7 +1,6 @@
 #pragma once
 #include <Arduino.h>
 #include <Ethernet.h>
-#include <EthernetUdp.h>
 
 // implements a simple version of Open Pixel Control protocol
 // See "doc/OpenPixelControl.html" for the spec

@@ -8,8 +8,14 @@
 
 namespace OpenPixelControl {
 
-    EthernetUDP udp;
-    
+    enum Status { ready,            // Listening, ready for a client to connect
+                  connected         // A client has connected
+                };
+
+    Status status;
+    EthernetClient client;
+    EthernetServer server(OPEN_PIXEL_PORT); 
+
     //
     // OPC sends each channel separately. However FastLED.show() 
     // updates *every* LED strand. In an 8 strand environment that is 8 times
@@ -25,7 +31,8 @@ namespace OpenPixelControl {
 
     void setup() {
 
-        udp.begin(OPEN_PIXEL_PORT);
+        server.begin();
+        status = ready;
 
     }
 
@@ -51,17 +58,38 @@ namespace OpenPixelControl {
 
     void loop() {
 
-        uint32_t cb = udp.parsePacket();
-
-        if (cb)
+        if (status == ready)
         {
-            LED::openPixelMessageReceived();
 
-            ixHighestChannelSeen = 0;
-            ixHeader = 0;
-            ixRGB = 0;
-            memset( (void*) rgHeader, 0, sizeof(rgHeader));
+            // listen for connections
+            client = server.available();
+            if (client) {
 
+                dbgprintf("Client connected\n");
+                Display::status(3, "OpenPixel Connected");
+                LED::openPixelClientConnection(true);
+                status = connected;
+                ixHighestChannelSeen = 0;
+                ixHeader = 0;
+                ixRGB = 0;
+                memset( (void*) rgHeader, 0, sizeof(rgHeader));
+            }
+        }
+
+        if (status == connected)
+        {
+            if (!client.connected())
+            {
+                // client has disconnected!
+                client.stop();
+                dbgprintf("client disconnected\n");
+                Display::status(3, "");
+                LED::openPixelClientConnection(false);
+                status = ready;
+                return;
+            }
+
+            // client is still connected -- read bytes!
             read_available();
 
         }
@@ -72,7 +100,7 @@ namespace OpenPixelControl {
     void read_available() {
 
         // how many bytes are even available to read?
-        size_t cbAvail = udp.available();
+        size_t cbAvail = client.available();
         if (cbAvail == 0) 
             return;
 
@@ -84,7 +112,7 @@ namespace OpenPixelControl {
             //      -- the number of bytes in the header remaining, i.e. (4 - ixHeader)
             //      -- the number of bytes we actually have (cbAvail)
 
-            ixHeader += udp.read(rgHeader + ixHeader, min(4 - ixHeader, cbAvail));
+            ixHeader += client.read(rgHeader + ixHeader, min(4 - ixHeader, cbAvail));
 
             if (ixHeader < 4)
                 // go home and wait for the rest of the header
@@ -159,7 +187,7 @@ namespace OpenPixelControl {
             return;
         }
 
-        cbAvail = udp.available();
+        cbAvail = client.available();
         if (cbAvail == 0) 
             return;
         
@@ -175,7 +203,7 @@ namespace OpenPixelControl {
         {
             while (cbToRead)
             {
-                (void) udp.read();
+                (void) client.read();
                 cbToRead--;
                 ixRGB++;
             }
@@ -187,7 +215,7 @@ namespace OpenPixelControl {
             return;
         }
 
-        uint32_t cbRead = udp.read(pstrip + ixRGB, cbToRead);
+        uint32_t cbRead = client.read(pstrip + ixRGB, cbToRead);
         ixRGB += cbRead;
 
         if (ixRGB >= cbMessage)
