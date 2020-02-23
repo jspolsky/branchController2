@@ -42,10 +42,10 @@ namespace TcpServer {
             return;
         }        
 
-        dbgprintf("DHCP beginning\n");
-
-        if (0 == Ethernet.begin(MacAddress::mac))
+        if (Persist::data.static_ip)
         {
+            dbgprintf("Connecting using static IP address\n");
+            Ethernet.begin(MacAddress::mac, Persist::data.ip_addr);
 
             // Check for Ethernet hardware present
             if (Ethernet.hardwareStatus() == EthernetNoHardware) 
@@ -56,11 +56,28 @@ namespace TcpServer {
                 return;
             }
 
-            dbgprintf("No DHCP Server\n");
-            status = noDHCP;
-            Display::status(0, "No DHCP Server");
-            Display::status(3, rgchRetry);
-            return;
+        }
+        else
+        {
+            dbgprintf("DHCP beginning\n");
+            if (0 == Ethernet.begin(MacAddress::mac))
+            {
+
+                // Check for Ethernet hardware present
+                if (Ethernet.hardwareStatus() == EthernetNoHardware) 
+                {
+                    dbgprintf("No Ethernet Hardware\n");
+                    status = noHardware;
+                    Display::status(0, "No ethernet port");
+                    return;
+                }
+
+                dbgprintf("No DHCP Server\n");
+                status = noDHCP;
+                Display::status(0, "No DHCP Server");
+                Display::status(3, rgchRetry);
+                return;
+            }
         }
 
         char rgch[22];

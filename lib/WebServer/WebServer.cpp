@@ -7,7 +7,7 @@
 
 char *strsep(char **stringp, const char *delim);
 
-#define BUFFER_SIZE 64
+#define BUFFER_SIZE 128
 
 namespace WebServer {
 
@@ -60,7 +60,7 @@ namespace WebServer {
 
     void read_available() {
 
-        // Here's the plan: read one line at a time - up to 64 bytes, then discard
+        // Here's the plan: read one line at a time - up to BUFFER_SIZE bytes, then discard
         // When you see \n, process it
         //      if it starts with GET, record this as the "GET" command
         //      if it starts with \n again, that's the end of the HTTP header - process it
@@ -147,9 +147,24 @@ namespace WebServer {
                     Persist::data.brightness = min(255, atoi(pszTok + 2));
                     LEDS.setBrightness(Persist::data.brightness);
                     Persist::data.gamma_correction = false; // because g= will be missing if gamma correction is unchecked
+                    Persist::data.static_ip = false;        // because s= will be missing if static ip is unchecked
                 }
                 else if (!strncmp(pszTok, "g=", 2))
                     Persist::data.gamma_correction = (pszTok[2] == '1');
+                else if (!strncmp(pszTok, "s=", 2))
+                    Persist::data.static_ip = (pszTok[2] == '1');
+
+                else if (!strncmp(pszTok, "i0=", 3))
+                    Persist::data.ip_addr[0] = (uint8_t) atoi(pszTok + 3);
+                else if (!strncmp(pszTok, "i1=", 3))
+                    Persist::data.ip_addr[1] = (uint8_t) atoi(pszTok + 3);
+                else if (!strncmp(pszTok, "i2=", 3))
+                    Persist::data.ip_addr[2] = (uint8_t) atoi(pszTok + 3);
+                else if (!strncmp(pszTok, "i3=", 3))
+                    Persist::data.ip_addr[3] = (uint8_t) atoi(pszTok + 3);
+
+
+
                 else
                     dbgprintf("unidentified token: {%s}\n", pszTok);
             }
@@ -217,6 +232,29 @@ namespace WebServer {
                     "<br>"
                     "<input type=checkbox id=g name=g value=1 checked><label for=g>Gamma Correction (Not implemented)</label>"
                     "<br>"
+                    "<input type=checkbox id=s name=s value=1 "
+                    
+                            ); if (Persist::data.static_ip) client.println("checked"); client.println(
+                    
+                    "><label for=s>Static IP Address: </label> "
+                    "<input name=i0 size=3 value="
+
+                            ); client.println(Persist::data.ip_addr[0]); client.println(
+
+                    ">.<input name=i1 size=3 value="
+
+                            ); client.println(Persist::data.ip_addr[1]); client.println(
+
+                    ">.<input name=i2 size=3 value="
+
+                            ); client.println(Persist::data.ip_addr[2]); client.println(
+
+                    ">.<input name=i3 size=3 value="
+
+                            ); client.println(Persist::data.ip_addr[3]); client.println(
+
+                    "><br / >" 
+
                     "<input type=submit>"
                     "<br>"
                     "Test colors: "

@@ -20,7 +20,12 @@ namespace Persist {
         data.color_correction = LEDColorCorrection::TypicalLEDStrip;
         data.color_temperature = ColorTemperature::UncorrectedTemperature;
         data.gamma_correction = false;
-        
+        data.static_ip = false;
+        data.ip_addr[0] = 192;
+        data.ip_addr[1] = 168;
+        data.ip_addr[2] = 1;
+        data.ip_addr[3] = 128;
+
         dbgprintf("Initializing Persisted Data\n");
 
         byte bSig[2];
@@ -41,10 +46,15 @@ namespace Persist {
             // Don't read more than sizeof(data) or cbOnDisk
             uint8_t* pbData = (uint8_t*) &data;
             uint16_t cbToRead = min(cbOnDisk, sizeof(data)) - 2;    // -2 because we're not reading cb again
+            dbgprintf("\n");
+            dbgprintf("\n");
             for (uint16_t i = 0; i < cbToRead; i++)
             {
                 pbData[i + 2] = EEPROM.read( i + 4 );               // skip over signature and cb
+                dbgprintf("%x ", pbData[i+2]);
             }
+            dbgprintf("\n");
+            dbgprintf("\n");
 
         }
         else
@@ -52,9 +62,10 @@ namespace Persist {
             dbgprintf("Signature not found - not reading from EEPROM\n");
         }
 
-        dbgprintf("cb: %d color: %x,%x,%x pattern: %d brightness: %d\n"
-                  "       max_power: %d first_color: %c color correction: %x\n"
-                  "       color temperature: %x gamma correction: %d\n",
+        dbgprintf("cb: %d color: %x,%x,%x  pattern: %d  brightness: %d\n"
+                  "       max_power: %d  first_color: %c  color correction: %x\n"
+                  "       color temperature: %x  gamma correction: %d\n"
+                  "       static ip: %d  ip addr: %d.%d.%d.%d\n",
             data.cb,
             data.rgbSolidColor.r,
             data.rgbSolidColor.g,
@@ -65,7 +76,12 @@ namespace Persist {
             data.first_color,
             data.color_correction,
             data.color_temperature,
-            data.gamma_correction
+            data.gamma_correction,
+            data.static_ip,
+            data.ip_addr[0],
+            data.ip_addr[1],
+            data.ip_addr[2],
+            data.ip_addr[3]
         );
 
     }

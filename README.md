@@ -9,13 +9,15 @@ Although it can be used standalone to send its own patterns to the light strips,
 
 It is designed for WS2812b-style LED strips, with a single wire protocol. These are what Adafruit calls "NeoPixels".
 
-Personally I like to use the WS2815 variant which runs on 12 volts and has a backup wire allowing any single pixel to fail. It does *not* handle APA102c-type strips, which use a two wire protocol consisting of both the signal and a clock.
+Personally I like to use the WS2815 variant which runs on 12 volts and has a backup wire allowing any single pixel to fail. 
+
+Branch Controller does *not* handle APA102c-type strips, which use a two wire protocol consisting of both the signal and a clock.
 
 Features:
 
 * Supports up to 4400 pixels (550 per strip) at a frame rate of 60 Hz, the theoretical limit of the protocol
 
-* Ethernet control. Connects to an ethernet network to receive pixel data. This allows you to use many branch controllers controlled from a single PC
+* Ethernet control. Connects to an ethernet network to receive pixel data over TCP/IP. This allows you to use many branch controllers controlled from a single PC
 
 * 128x32 OLED display for diagnostics and network configuration
 
@@ -45,6 +47,13 @@ When branchController starts up, it will look for a DHCP server and try to get a
 
 Every branch controller has a unique MAC address which will never change, so you can configure your DHCP server to always hand out the same IP address to the same branch controller, which makes it easier to sort out multiple branch controllers.
 
+If you would like to use a static IP address:
+
+* Start up the branch controller once using DHCP
+* Connect to the web server running at the IP address that you see on the OLED display
+* Check the "static IP" box and enter the IP address you want to use. Click submit
+* Restart the branch controller. From now on it will use your static IP address.
+
 Web-based Hardware Configuration
 --------------------------------
 
@@ -57,7 +66,7 @@ branchController and modify some things:
 * the color temperature you want applied to all output, as a six digit hex RGB value
 * the overall brightness of the LEDs, on a scale from 0 (off) to 255 (full). This can
   also be adjusted with an IR remote
-
+* whether to use a static IP address 
 
 See http://fastled.io/docs/3.1/group___color_enums.html for options for color correction and 
 color temperature.
@@ -67,6 +76,8 @@ Open Pixel Control
 ------------------
 
 If branchController successfully gets on the Internet, it will listen for TCP connections on port 7890, where it will receive data sent to it using the Open Pixel Control format, documented [here](http://openpixelcontrol.org/). You can use Christopher Schardt's app [L.E.D. Lab](https://apps.apple.com/us/app/l-e-d-lab/id832042156) for iPhone or iPad to send cool animations -- all you need to do is set up the controller as if it were a FadeCandy controller.
+
+We use TCP and not UDP for Open Pixel Control. The w5500 ethernet chip used in this design has a tiny buffer and will lose UDP packets if they are sent too fast. TCP solves this problem.
 
 About the project
 -----------------
@@ -83,16 +94,22 @@ Want to build one?
 Next Up
 -------
 
-- [ ] Improve power limiting feature by showing stats on display for diagnosis
-- [ ] Static IP address
-- [ ] Multicast DNS (mDNS) and service discovery (DNS-SD)
-      try https://github.com/TrippyLighting/EthernetBonjour
-- [ ] "Count Pixels" mode
+Recently implemented:
+- [X] Static IP address
 - [X] Faster brightness adjust
+
+These features are planned REAL SOON NOW:
+- [ ] Improve power limiting feature by showing stats on display for diagnosis
+- [ ] "Count Pixels" mode
 - [ ] Investigate temporal dithering - it's not really happening. 
 - [ ] Internet cable disconnected / reconnected
 - [ ] Better built-in (DIY1-6) displays maybe
 - [ ] Support remote control Play/Pause button for internal DIY1-6 displays
 - [ ] Either implement gamma correction or stop pretending
+
+Ideas for future improvements:
+- [ ] New hardware design with ESP32 and logic shifters to handle way more LEDs
 - [ ] TouchDesigner support
 - [ ] DMX/ArtNet bridge mode
+- [ ] Multicast DNS (mDNS) and service discovery (DNS-SD)
+      try https://github.com/TrippyLighting/EthernetBonjour
