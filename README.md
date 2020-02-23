@@ -83,12 +83,11 @@ Want to build one?
 Next Up
 -------
 
-- [ ] "Count Pixels" mode
-- [ ] UDP support for Open Pixel Control
 - [ ] Improve power limiting feature by showing stats on display for diagnosis
 - [ ] Static IP address
 - [ ] Multicast DNS (mDNS) and service discovery (DNS-SD)
       try https://github.com/TrippyLighting/EthernetBonjour
+- [ ] "Count Pixels" mode
 - [X] Faster brightness adjust
 - [ ] Investigate temporal dithering - it's not really happening. 
 - [ ] Internet cable disconnected / reconnected
