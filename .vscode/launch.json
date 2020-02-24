@@ -13,7 +13,7 @@
             "request": "launch",
             "name": "PIO Debug",
             "executable": "/Users/spolsky/Dropbox/Arduino/branchController2/.pio/build/debug/firmware.elf",
-            "toolchainBinDir": "/Users/spolsky/.platformio/packages/toolchain-gccarmnoneeabi/bin",
+            "toolchainBinDir": "/Users/spolsky/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin",
             "svdPath": "/Users/spolsky/.platformio/platforms/teensy/misc/svd/MK20D5.svd",
             "preLaunchTask": {
                 "type": "PlatformIO",
@@ -26,7 +26,7 @@
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
             "executable": "/Users/spolsky/Dropbox/Arduino/branchController2/.pio/build/debug/firmware.elf",
-            "toolchainBinDir": "/Users/spolsky/.platformio/packages/toolchain-gccarmnoneeabi/bin",
+            "toolchainBinDir": "/Users/spolsky/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin",
             "svdPath": "/Users/spolsky/.platformio/platforms/teensy/misc/svd/MK20D5.svd",
             "internalConsoleOptions": "openOnSessionStart"
         }
